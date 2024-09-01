@@ -363,13 +363,42 @@ Table registro_meteorologico {
     fecha_modificacion TIMESTAMP [default: `NULL`, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
 
+Table color_suelo {
+    id INT [pk, increment, not null]
+    nombre VARCHAR(50) [not null, unique]
+    descripcion TEXT
+    fecha_creacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+    fecha_modificacion TIMESTAMP [default: NULL, note: 'ON UPDATE CURRENT_TIMESTAMP']
+}
+
+Table textura_suelo {
+    id INT [pk, increment, not null]
+    nombre VARCHAR(50) [not null, unique]
+    descripcion TEXT
+    fecha_creacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+    fecha_modificacion TIMESTAMP [default: NULL, note: 'ON UPDATE CURRENT_TIMESTAMP']
+}
+
+Table tonos_munsell {
+    id INT [pk, increment, not null]
+    tono VARCHAR(5) [not null, unique]
+    descripcion TEXT
+}
+
+Table valores_munsell {
+    id INT [pk, increment, not null]
+    tono_id INT [not null, ref: > tonos_munsell.id]
+    valor INT [not null]
+    croma INT [not null]
+}
+
 Table tipo_suelo {
     id INT [pk, increment, not null]
     nombre VARCHAR(50) [not null, unique]
     descripcion TEXT
-    color VARCHAR(50) [not null]
-    textura VARCHAR(50) [not null]
-    valor_munsell VARCHAR(20) [not null]
+    color_id INT [not null, ref: > color_suelo.id]
+    textura_id INT [not null, ref: > textura_suelo.id]
+    munsell_id INT [ref: > valores_munsell.id]
     caracteristicas_generales TEXT
     recomendaciones_manejo TEXT
     fecha_creacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
