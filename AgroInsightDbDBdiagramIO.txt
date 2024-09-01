@@ -67,12 +67,15 @@ Table lote {
 Table variedad_maiz {
     id INT [pk, increment, not null]
     nombre VARCHAR(100) [not null, unique]
+    nombre_cientifico VARCHAR(100)
     descripcion TEXT
-    dias_maduracion INT(3) [not null]
-    resistencia_sequia ENUM('baja', 'media', 'alta') [not null]
-    resistencia_plagas ENUM('baja', 'media', 'alta') [not null]
+    altura_planta DECIMAL(5,2)
+    altura_planta_unidad_id INT [ref: > unidad_medida.id]
     rendimiento_promedio DECIMAL(5,2) [not null]
     rendimiento_promedio_unidad_id INT [ref: > unidad_medida.id]
+    color_grano VARCHAR(50)
+    densidad_siembra DECIMAL(7,2)
+    densidad_siembra_unidad_id INT [ref: > unidad_medida.id]
     fecha_creacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
     fecha_modificacion TIMESTAMP [default: `NULL`, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
@@ -152,8 +155,7 @@ Table etapa_fenologica {
     id INT [pk, increment, not null]
     id_variedad_maiz INT [not null, ref: > variedad_maiz.id]
     nombre_etapa VARCHAR(50) [not null]
-    fecha_inicio DATE [not null]
-    fecha_fin DATE
+    duracion INT [not null]
     descripcion TEXT
     fecha_creacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
     fecha_modificacion TIMESTAMP [default: `NULL`, note: 'ON UPDATE CURRENT_TIMESTAMP']
