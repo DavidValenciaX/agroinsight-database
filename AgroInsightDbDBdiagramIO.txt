@@ -173,21 +173,72 @@ Table caracteristicas_fenotipicas {
     fecha_modificacion TIMESTAMP [default: `NULL`, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
 
-Table notificacion_alerta {
+Table tipo_alerta {
     id INT [pk, increment, not null]
-    id_cultivo INT [not null, ref: > cultivo.id]
-    tipo_alerta VARCHAR(50) [not null]
+    nombre VARCHAR(50) [not null, unique]
+    descripcion TEXT
+    fecha_creacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+    fecha_modificacion TIMESTAMP [default: `NULL`, note: 'ON UPDATE CURRENT_TIMESTAMP']
+}
+
+Table estado_alerta {
+    id INT [pk, increment, not null]
+    nombre VARCHAR(50) [not null, unique]
+    descripcion TEXT
+    fecha_creacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+    fecha_modificacion TIMESTAMP [default: `NULL`, note: 'ON UPDATE CURRENT_TIMESTAMP']
+}
+
+Table alerta {
+    id INT [pk, increment, not null]
+    id_lote INT [not null, ref: > lote.id]
+    tipo_alerta INT [not null, ref: > tipo_alerta.id]
     descripcion TEXT [not null]
     fecha_generacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
     nivel_urgencia ENUM('Baja', 'Media', 'Alta') [not null]
-    estado_id INT [not null, ref: > estado_notificacion_alerta.id]
+    estado_id INT [not null, ref: > estado_alerta.id]
+    fecha_modificacion TIMESTAMP [default: `NULL`, note: 'ON UPDATE CURRENT_TIMESTAMP']
+}
+
+Table tipo_notificacion {
+    id INT [pk, increment, not null]
+    nombre VARCHAR(50) [not null, unique]
+    descripcion TEXT
+    fecha_creacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+    fecha_modificacion TIMESTAMP [default: `NULL`, note: 'ON UPDATE CURRENT_TIMESTAMP']
+}
+
+Table estado_notificacion {
+    id INT [pk, increment, not null]
+    nombre VARCHAR(50) [not null, unique]
+    descripcion TEXT
+    fecha_creacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+    fecha_modificacion TIMESTAMP [default: `NULL`, note: 'ON UPDATE CURRENT_TIMESTAMP']
+}
+
+Table notificacion {
+    id INT [pk, increment, not null]
+    id_usuario INT [not null, ref: > usuario.id]
+    tipo_notificacion INT [not null, ref: > tipo_notificacion.id]
+    mensaje TEXT [not null]
+    leido BOOLEAN [not null, default: `false`]
+    fecha_generacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+    estado_id INT [not null, ref: > estado_notificacion.id]
+    fecha_modificacion TIMESTAMP [default: `NULL`, note: 'ON UPDATE CURRENT_TIMESTAMP']
+}
+
+Table tipo_recomendacion {
+    id INT [pk, increment, not null]
+    nombre VARCHAR(50) [not null, unique]
+    descripcion TEXT
+    fecha_creacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
     fecha_modificacion TIMESTAMP [default: `NULL`, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
 
 Table recomendacion {
     id INT [pk, increment, not null]
     id_lote INT [not null, ref: > lote.id]
-    tipo_recomendacion VARCHAR(50) [not null]
+    tipo_recomendacion INT [not null, ref: > tipo_recomendacion.id]
     descripcion TEXT [not null]
     fecha_generacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
     prioridad ENUM('Baja', 'Media', 'Alta') [not null]
@@ -266,14 +317,6 @@ Table estado_tarea_labor_cultural {
     fecha_modificacion TIMESTAMP [default: `NULL`, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
 
-Table estado_notificacion_alerta {
-    id INT [pk, increment, not null]
-    nombre VARCHAR(50) [not null, unique]
-    descripcion TEXT
-    fecha_creacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
-    fecha_modificacion TIMESTAMP [default: `NULL`, note: 'ON UPDATE CURRENT_TIMESTAMP']
-}
-
 Table estado_recomendacion {
     id INT [pk, increment, not null]
     nombre VARCHAR(50) [not null, unique]
@@ -319,28 +362,28 @@ Table registro_meteorologico {
 }
 
 Table tipo_suelo {
-id INT [pk, increment, not null]
-nombre VARCHAR(50) [not null, unique]
-descripcion TEXT
-color VARCHAR(50) [not null]
-textura VARCHAR(50) [not null]
-valor_munsell VARCHAR(20) [not null]
-caracteristicas_generales TEXT
-recomendaciones_manejo TEXT
-fecha_creacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
-fecha_modificacion TIMESTAMP [default: NULL, note: 'ON UPDATE CURRENT_TIMESTAMP']
+    id INT [pk, increment, not null]
+    nombre VARCHAR(50) [not null, unique]
+    descripcion TEXT
+    color VARCHAR(50) [not null]
+    textura VARCHAR(50) [not null]
+    valor_munsell VARCHAR(20) [not null]
+    caracteristicas_generales TEXT
+    recomendaciones_manejo TEXT
+    fecha_creacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+    fecha_modificacion TIMESTAMP [default: NULL, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
 
 Table analisis_suelo {
-id INT [pk, increment, not null]
-id_lote INT [not null, ref: > lote.id]
-id_tipo_suelo INT [not null, ref: > tipo_suelo.id]
-fecha_analisis DATE [not null]
-imagen_suelo MEDIUMBLOB [not null]
-confianza_clasificacion DECIMAL(5,2) [not null]
-observaciones TEXT
-fecha_creacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
-fecha_modificacion TIMESTAMP [default: NULL, note: 'ON UPDATE CURRENT_TIMESTAMP']
+    id INT [pk, increment, not null]
+    id_lote INT [not null, ref: > lote.id]
+    id_tipo_suelo INT [not null, ref: > tipo_suelo.id]
+    fecha_analisis DATE [not null]
+    imagen_suelo MEDIUMBLOB [not null]
+    confianza_clasificacion DECIMAL(5,2) [not null]
+    observaciones TEXT
+    fecha_creacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+    fecha_modificacion TIMESTAMP [default: NULL, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
 
 Table deteccion_gusano_cogollero {
@@ -365,9 +408,17 @@ Table estado_informe {
     fecha_modificacion TIMESTAMP [default: NULL, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
 
+Table tipo_informe {
+    id INT [pk, increment, not null]
+    nombre VARCHAR(50) [not null, unique]
+    descripcion TEXT
+    fecha_creacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+    fecha_modificacion TIMESTAMP [default: `NULL`, note: 'ON UPDATE CURRENT_TIMESTAMP']
+}
+
 Table informe {
     id INT [pk, increment, not null]
-    tipo_informe VARCHAR(50) [not null]
+    tipo_informe INT [not null, ref: > tipo_informe.id]
     id_lote INT [ref: > lote.id]
     fecha_generacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
     periodo_inicio DATE [not null]
