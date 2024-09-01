@@ -5,7 +5,6 @@ Table usuario {
     email VARCHAR(100) [not null, unique]
     password VARCHAR(255) [not null]
     fecha_registro DATETIME [not null]
-    rol_id INT [not null]
     fecha_creacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
     fecha_modificacion TIMESTAMP [default: `NULL`, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
@@ -14,7 +13,6 @@ Table rol {
     id INT [pk, increment, not null]
     nombre VARCHAR(50) [not null, unique]
     descripcion TEXT
-    permisos JSON [not null]
     fecha_creacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
     fecha_modificacion TIMESTAMP [default: `NULL`, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
@@ -97,7 +95,6 @@ Table cultivo {
     cantidad_vendida INT [not null]
     ingreso_total DECIMAL(15,2) [not null]
     costo_produccion DECIMAL(15,2) [not null]
-    ganancia_bruta DECIMAL(15,2) [not null]
     fecha_venta DATE [not null]
     observaciones TEXT
     fecha_creacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
@@ -108,8 +105,15 @@ Table unidad_medida {
     id INT [pk, increment]
     nombre VARCHAR(50) [not null, unique]
     abreviatura VARCHAR(10) [not null, unique]
-    categoria VARCHAR(50) [not null]
-    factor_conversion DECIMAL(10,6)
+    categoria_id INT [not null, ref: > categoria_unidad_medida.id]
+    fecha_creacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+    fecha_modificacion TIMESTAMP [default: `NULL`, note: 'ON UPDATE CURRENT_TIMESTAMP']
+}
+
+Table categoria_unidad_medida {
+    id INT [pk, increment]
+    nombre VARCHAR(50) [not null, unique]
+    descripcion TEXT
     fecha_creacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
     fecha_modificacion TIMESTAMP [default: `NULL`, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
