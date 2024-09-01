@@ -74,6 +74,7 @@ Table variedad_maiz {
     resistencia_sequia ENUM('baja', 'media', 'alta') [not null]
     resistencia_plagas ENUM('baja', 'media', 'alta') [not null]
     rendimiento_promedio DECIMAL(5,2) [not null]
+    rendimiento_promedio_unidad_id INT [ref: > unidad_medida.id]
     fecha_creacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
     fecha_modificacion TIMESTAMP [default: `NULL`, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
@@ -84,17 +85,31 @@ Table cultivo {
     id_variedad_maiz INT [not null, ref: > variedad_maiz.id]
     fecha_siembra DATE [not null]
     area_sembrada DECIMAL(10,2) [not null]
+    area_sembrada_unidad_id INT [ref: > unidad_medida.id]
     densidad_siembra INT [not null]
+    densidad_siembra_unidad_id INT [ref: > unidad_medida.id]
     estado_id INT [not null, ref: > estado_cultivo.id]
     fecha_cosecha DATE [not null]
     produccion_total INT [not null]
+    produccion_total_unidad_id INT [ref: > unidad_medida.id]
     precio_venta_unitario DECIMAL(10,2) [not null]
+    precio_venta_unitario_unidad_id INT [ref: > unidad_medida.id]
     cantidad_vendida INT [not null]
     ingreso_total DECIMAL(15,2) [not null]
     costo_produccion DECIMAL(15,2) [not null]
     ganancia_bruta DECIMAL(15,2) [not null]
     fecha_venta DATE [not null]
     observaciones TEXT
+    fecha_creacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+    fecha_modificacion TIMESTAMP [default: `NULL`, note: 'ON UPDATE CURRENT_TIMESTAMP']
+}
+
+Table unidad_medida {
+    id INT [pk, increment]
+    nombre VARCHAR(50) [not null, unique]
+    abreviatura VARCHAR(10) [not null, unique]
+    categoria VARCHAR(50) [not null]
+    factor_conversion DECIMAL(10,6)
     fecha_creacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
     fecha_modificacion TIMESTAMP [default: `NULL`, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
@@ -124,7 +139,7 @@ Table tipo_insumo_agricola {
     id INT [pk, increment, not null]
     nombre VARCHAR(100) [not null, unique]
     descripcion TEXT
-    unidad_medida VARCHAR(20) [not null]
+    unidad_medida_id INT [ref: > unidad_medida.id]
     fecha_creacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
     fecha_modificacion TIMESTAMP [default: `NULL`, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
@@ -145,7 +160,9 @@ Table caracteristicas_fenotipicas {
     id_cultivo INT [not null, ref: > cultivo.id]
     fecha_registro DATE [not null]
     altura_planta DECIMAL(5,2) [not null]
+    altura_planta_unidad_id INT [ref: > unidad_medida.id]
     diametro_tallo DECIMAL(4,2) [not null]
+    diametro_tallo_unidad_id INT [ref: > unidad_medida.id]
     numero_hojas INT(3) [not null]
     observaciones TEXT
     fecha_creacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
@@ -284,9 +301,13 @@ Table registro_meteorologico {
     temperatura_min DECIMAL(4,2) [not null]
     temperatura_max DECIMAL(4,2) [not null]
     temperatura_promedio DECIMAL(4,2) [not null]
+    temperatura_unidad_id INT [ref: > unidad_medida.id]
     presion_atmosferica DECIMAL(6,2) [not null]
+    presion_unidad_id INT [ref: > unidad_medida.id]
     humedad_relativa DECIMAL(5,2) [not null]
+    humedad_unidad_id INT [ref: > unidad_medida.id]
     precipitacion DECIMAL(6,2) [not null]
+    precipitacion_unidad_id INT [ref: > unidad_medida.id]
     indice_uv DECIMAL(3,1) [not null]
     horas_sol DECIMAL(4,2) [not null]
     fecha_creacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
