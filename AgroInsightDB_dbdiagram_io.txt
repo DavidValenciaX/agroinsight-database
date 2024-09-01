@@ -59,7 +59,16 @@ Table lote {
     ubicacion VARCHAR(255)
     latitud DECIMAL(10,8)
     longitud DECIMAL(11,8)
-    id_finca INT [not null, ref: > finca.id]
+    finca_id INT [not null, ref: > finca.id]
+    fecha_creacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+    fecha_modificacion TIMESTAMP [default: `NULL`, note: 'ON UPDATE CURRENT_TIMESTAMP']
+}
+
+Table tipo_grano {
+    id INT [pk, increment, not null]
+    nombre VARCHAR(50) [not null, unique]
+    color VARCHAR(50)
+    descripcion TEXT
     fecha_creacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
     fecha_modificacion TIMESTAMP [default: `NULL`, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
@@ -73,7 +82,7 @@ Table variedad_maiz {
     altura_planta_unidad_id INT [ref: > unidad_medida.id]
     rendimiento_promedio DECIMAL(5,2) [not null]
     rendimiento_promedio_unidad_id INT [ref: > unidad_medida.id]
-    color_grano VARCHAR(50)
+    tipo_grano_id INT [not null, ref: > tipo_grano.id]
     densidad_siembra DECIMAL(7,2)
     densidad_siembra_unidad_id INT [ref: > unidad_medida.id]
     fecha_creacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
@@ -82,8 +91,8 @@ Table variedad_maiz {
 
 Table cultivo {
     id INT [pk, increment, not null]
-    id_lote INT [not null, ref: > lote.id]
-    id_variedad_maiz INT [not null, ref: > variedad_maiz.id]
+    lote_id INT [not null, ref: > lote.id]
+    variedad_maiz_id INT [not null, ref: > variedad_maiz.id]
     fecha_siembra DATE [not null]
     area_sembrada DECIMAL(10,2) [not null]
     area_sembrada_unidad_id INT [ref: > unidad_medida.id]
@@ -131,7 +140,7 @@ Table tipo_labor_cultural {
 
 Table tarea_labor_cultural {
     id INT [pk, increment, not null]
-    id_tipo_labor INT [not null, ref: > tipo_labor_cultural.id]
+    tipo_labor_id INT [not null, ref: > tipo_labor_cultural.id]
     fecha_programada DATE [not null]
     descripcion TEXT
     costo_mano_obra DECIMAL(10, 2) [not null, default: 0.00]
@@ -153,7 +162,7 @@ Table tipo_insumo_agricola {
 
 Table etapa_fenologica {
     id INT [pk, increment, not null]
-    id_variedad_maiz INT [not null, ref: > variedad_maiz.id]
+    variedad_maiz_id INT [not null, ref: > variedad_maiz.id]
     nombre_etapa VARCHAR(50) [not null]
     duracion INT [not null]
     descripcion TEXT
@@ -163,7 +172,7 @@ Table etapa_fenologica {
 
 Table caracteristicas_fenotipicas {
     id INT [pk, increment, not null]
-    id_cultivo INT [not null, ref: > cultivo.id]
+    cultivo_id INT [not null, ref: > cultivo.id]
     fecha_registro DATE [not null]
     altura_planta DECIMAL(5,2) [not null]
     altura_planta_unidad_id INT [ref: > unidad_medida.id]
@@ -193,7 +202,7 @@ Table estado_alerta {
 
 Table alerta {
     id INT [pk, increment, not null]
-    id_lote INT [not null, ref: > lote.id]
+    lote_id INT [not null, ref: > lote.id]
     tipo_alerta INT [not null, ref: > tipo_alerta.id]
     descripcion TEXT [not null]
     fecha_generacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
@@ -220,7 +229,7 @@ Table estado_notificacion {
 
 Table notificacion {
     id INT [pk, increment, not null]
-    id_usuario INT [not null, ref: > usuario.id]
+    usuario_id INT [not null, ref: > usuario.id]
     tipo_notificacion INT [not null, ref: > tipo_notificacion.id]
     mensaje TEXT [not null]
     leido BOOLEAN [not null, default: `false`]
@@ -239,8 +248,8 @@ Table tipo_recomendacion {
 
 Table recomendacion {
     id INT [pk, increment, not null]
-    id_lote INT [not null, ref: > lote.id]
-    tipo_recomendacion INT [not null, ref: > tipo_recomendacion.id]
+    lote_id INT [not null, ref: > lote.id]
+    tipo_recomendacion_id INT [not null, ref: > tipo_recomendacion.id]
     descripcion TEXT [not null]
     fecha_generacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
     prioridad ENUM('Baja', 'Media', 'Alta') [not null]
@@ -250,7 +259,7 @@ Table recomendacion {
 
 Table accion_mitigacion {
     id INT [pk, increment, not null]
-    id_recomendacion INT [ref: > recomendacion.id]
+    recomendacion_id INT [ref: > recomendacion.id]
     descripcion TEXT [not null]
     fecha_inicio DATE [not null]
     fecha_fin DATE
@@ -262,7 +271,7 @@ Table accion_mitigacion {
 
 Table aplicacion_insumo {
   id INT [pk, increment]
-  id_tarea_labor INT [not null, ref: > tarea_labor_cultural.id]
+  tarea_labor_id INT [not null, ref: > tarea_labor_cultural.id]
   insumo_id INT [ref: > tipo_insumo_agricola.id]
   fecha_aplicacion DATE [not null]
   cantidad DECIMAL(10,2) [not null]
@@ -275,7 +284,7 @@ Table aplicacion_insumo {
 
 Table uso_maquinaria {
   id INT [pk, increment]
-  id_tarea_labor INT [not null, ref: > tarea_labor_cultural.id]
+  tarea_labor_id INT [not null, ref: > tarea_labor_cultural.id]
   maquinaria_id INT [ref: > tipo_maquinaria_agricola.id]
   fecha_uso DATE [not null]
   horas_uso DECIMAL(5,2) [not null]
@@ -345,7 +354,7 @@ Table estado_asignacion {
 
 Table registro_meteorologico {
     id INT [pk, increment, not null]
-    id_lote INT [not null, ref: > lote.id]
+    lote_id INT [not null, ref: > lote.id]
     fecha DATE [not null]
     temperatura_min DECIMAL(4,2) [not null]
     temperatura_max DECIMAL(4,2) [not null]
@@ -407,8 +416,8 @@ Table tipo_suelo {
 
 Table analisis_suelo {
     id INT [pk, increment, not null]
-    id_lote INT [not null, ref: > lote.id]
-    id_tipo_suelo INT [not null, ref: > tipo_suelo.id]
+    lote_id INT [not null, ref: > lote.id]
+    tipo_suelo_id INT [not null, ref: > tipo_suelo.id]
     fecha_analisis DATE [not null]
     imagen_suelo MEDIUMBLOB [not null]
     confianza_clasificacion DECIMAL(5,2) [not null]
@@ -419,7 +428,7 @@ Table analisis_suelo {
 
 Table deteccion_gusano_cogollero {
     id INT [pk, increment, not null]
-    id_lote INT [not null, ref: > lote.id]
+    lote_id INT [not null, ref: > lote.id]
     fecha_deteccion TIMESTAMP [not null]
     imagen_planta MEDIUMBLOB [not null]
     resultado_deteccion ENUM('Detectado', 'No Detectado', 'Indeterminado') [not null]
@@ -449,8 +458,8 @@ Table tipo_informe {
 
 Table informe {
     id INT [pk, increment, not null]
-    tipo_informe INT [not null, ref: > tipo_informe.id]
-    id_lote INT [ref: > lote.id]
+    tipo_informe_id INT [not null, ref: > tipo_informe.id]
+    lote_id INT [ref: > lote.id]
     fecha_generacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
     periodo_inicio DATE [not null]
     periodo_fin DATE [not null]

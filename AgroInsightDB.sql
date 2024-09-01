@@ -61,7 +61,16 @@ CREATE TABLE `lote` (
   `ubicacion` VARCHAR(255),
   `latitud` DECIMAL(10,8),
   `longitud` DECIMAL(11,8),
-  `id_finca` INT NOT NULL,
+  `finca_id` INT NOT NULL,
+  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+  `fecha_modificacion` TIMESTAMP DEFAULT (NULL) COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
+);
+
+CREATE TABLE `tipo_grano` (
+  `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(50) UNIQUE NOT NULL,
+  `color` VARCHAR(50),
+  `descripcion` TEXT,
   `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
   `fecha_modificacion` TIMESTAMP DEFAULT (NULL) COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
 );
@@ -69,20 +78,23 @@ CREATE TABLE `lote` (
 CREATE TABLE `variedad_maiz` (
   `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(100) UNIQUE NOT NULL,
+  `nombre_cientifico` VARCHAR(100),
   `descripcion` TEXT,
-  `dias_maduracion` INT(3) NOT NULL,
-  `resistencia_sequia` ENUM(baja,media,alta) NOT NULL,
-  `resistencia_plagas` ENUM(baja,media,alta) NOT NULL,
+  `altura_planta` DECIMAL(5,2),
+  `altura_planta_unidad_id` INT,
   `rendimiento_promedio` DECIMAL(5,2) NOT NULL,
   `rendimiento_promedio_unidad_id` INT,
+  `tipo_grano_id` INT NOT NULL,
+  `densidad_siembra` DECIMAL(7,2),
+  `densidad_siembra_unidad_id` INT,
   `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
   `fecha_modificacion` TIMESTAMP DEFAULT (NULL) COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
 );
 
 CREATE TABLE `cultivo` (
   `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `id_lote` INT NOT NULL,
-  `id_variedad_maiz` INT NOT NULL,
+  `lote_id` INT NOT NULL,
+  `variedad_maiz_id` INT NOT NULL,
   `fecha_siembra` DATE NOT NULL,
   `area_sembrada` DECIMAL(10,2) NOT NULL,
   `area_sembrada_unidad_id` INT,
@@ -130,7 +142,7 @@ CREATE TABLE `tipo_labor_cultural` (
 
 CREATE TABLE `tarea_labor_cultural` (
   `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `id_tipo_labor` INT NOT NULL,
+  `tipo_labor_id` INT NOT NULL,
   `fecha_programada` DATE NOT NULL,
   `descripcion` TEXT,
   `costo_mano_obra` DECIMAL(10,2) NOT NULL DEFAULT 0,
@@ -152,10 +164,9 @@ CREATE TABLE `tipo_insumo_agricola` (
 
 CREATE TABLE `etapa_fenologica` (
   `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `id_variedad_maiz` INT NOT NULL,
+  `variedad_maiz_id` INT NOT NULL,
   `nombre_etapa` VARCHAR(50) NOT NULL,
-  `fecha_inicio` DATE NOT NULL,
-  `fecha_fin` DATE,
+  `duracion` INT NOT NULL,
   `descripcion` TEXT,
   `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
   `fecha_modificacion` TIMESTAMP DEFAULT (NULL) COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
@@ -163,7 +174,7 @@ CREATE TABLE `etapa_fenologica` (
 
 CREATE TABLE `caracteristicas_fenotipicas` (
   `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `id_cultivo` INT NOT NULL,
+  `cultivo_id` INT NOT NULL,
   `fecha_registro` DATE NOT NULL,
   `altura_planta` DECIMAL(5,2) NOT NULL,
   `altura_planta_unidad_id` INT,
@@ -175,10 +186,26 @@ CREATE TABLE `caracteristicas_fenotipicas` (
   `fecha_modificacion` TIMESTAMP DEFAULT (NULL) COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
 );
 
-CREATE TABLE `notificacion_alerta` (
+CREATE TABLE `tipo_alerta` (
   `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `id_cultivo` INT NOT NULL,
-  `tipo_alerta` VARCHAR(50) NOT NULL,
+  `nombre` VARCHAR(50) UNIQUE NOT NULL,
+  `descripcion` TEXT,
+  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+  `fecha_modificacion` TIMESTAMP DEFAULT (NULL) COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
+);
+
+CREATE TABLE `estado_alerta` (
+  `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(50) UNIQUE NOT NULL,
+  `descripcion` TEXT,
+  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+  `fecha_modificacion` TIMESTAMP DEFAULT (NULL) COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
+);
+
+CREATE TABLE `alerta` (
+  `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `lote_id` INT NOT NULL,
+  `tipo_alerta` INT NOT NULL,
   `descripcion` TEXT NOT NULL,
   `fecha_generacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
   `nivel_urgencia` ENUM(Baja,Media,Alta) NOT NULL,
@@ -186,10 +213,45 @@ CREATE TABLE `notificacion_alerta` (
   `fecha_modificacion` TIMESTAMP DEFAULT (NULL) COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
 );
 
+CREATE TABLE `tipo_notificacion` (
+  `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(50) UNIQUE NOT NULL,
+  `descripcion` TEXT,
+  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+  `fecha_modificacion` TIMESTAMP DEFAULT (NULL) COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
+);
+
+CREATE TABLE `estado_notificacion` (
+  `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(50) UNIQUE NOT NULL,
+  `descripcion` TEXT,
+  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+  `fecha_modificacion` TIMESTAMP DEFAULT (NULL) COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
+);
+
+CREATE TABLE `notificacion` (
+  `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `usuario_id` INT NOT NULL,
+  `tipo_notificacion` INT NOT NULL,
+  `mensaje` TEXT NOT NULL,
+  `leido` BOOLEAN NOT NULL DEFAULT (false),
+  `fecha_generacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+  `estado_id` INT NOT NULL,
+  `fecha_modificacion` TIMESTAMP DEFAULT (NULL) COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
+);
+
+CREATE TABLE `tipo_recomendacion` (
+  `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(50) UNIQUE NOT NULL,
+  `descripcion` TEXT,
+  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+  `fecha_modificacion` TIMESTAMP DEFAULT (NULL) COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
+);
+
 CREATE TABLE `recomendacion` (
   `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `id_lote` INT NOT NULL,
-  `tipo_recomendacion` VARCHAR(50) NOT NULL,
+  `lote_id` INT NOT NULL,
+  `tipo_recomendacion_id` INT NOT NULL,
   `descripcion` TEXT NOT NULL,
   `fecha_generacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
   `prioridad` ENUM(Baja,Media,Alta) NOT NULL,
@@ -199,7 +261,7 @@ CREATE TABLE `recomendacion` (
 
 CREATE TABLE `accion_mitigacion` (
   `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `id_recomendacion` INT,
+  `recomendacion_id` INT,
   `descripcion` TEXT NOT NULL,
   `fecha_inicio` DATE NOT NULL,
   `fecha_fin` DATE,
@@ -211,7 +273,7 @@ CREATE TABLE `accion_mitigacion` (
 
 CREATE TABLE `aplicacion_insumo` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `id_tarea_labor` INT NOT NULL,
+  `tarea_labor_id` INT NOT NULL,
   `insumo_id` INT,
   `fecha_aplicacion` DATE NOT NULL,
   `cantidad` DECIMAL(10,2) NOT NULL,
@@ -224,7 +286,7 @@ CREATE TABLE `aplicacion_insumo` (
 
 CREATE TABLE `uso_maquinaria` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `id_tarea_labor` INT NOT NULL,
+  `tarea_labor_id` INT NOT NULL,
   `maquinaria_id` INT,
   `fecha_uso` DATE NOT NULL,
   `horas_uso` DECIMAL(5,2) NOT NULL,
@@ -268,14 +330,6 @@ CREATE TABLE `estado_tarea_labor_cultural` (
   `fecha_modificacion` TIMESTAMP DEFAULT (NULL) COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
 );
 
-CREATE TABLE `estado_notificacion_alerta` (
-  `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `nombre` VARCHAR(50) UNIQUE NOT NULL,
-  `descripcion` TEXT,
-  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-  `fecha_modificacion` TIMESTAMP DEFAULT (NULL) COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
-);
-
 CREATE TABLE `estado_recomendacion` (
   `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(50) UNIQUE NOT NULL,
@@ -302,7 +356,7 @@ CREATE TABLE `estado_asignacion` (
 
 CREATE TABLE `registro_meteorologico` (
   `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `id_lote` INT NOT NULL,
+  `lote_id` INT NOT NULL,
   `fecha` DATE NOT NULL,
   `temperatura_min` DECIMAL(4,2) NOT NULL,
   `temperatura_max` DECIMAL(4,2) NOT NULL,
@@ -320,13 +374,42 @@ CREATE TABLE `registro_meteorologico` (
   `fecha_modificacion` TIMESTAMP DEFAULT (NULL) COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
 );
 
+CREATE TABLE `color_suelo` (
+  `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(50) UNIQUE NOT NULL,
+  `descripcion` TEXT,
+  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+  `fecha_modificacion` TIMESTAMP DEFAULT null COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
+);
+
+CREATE TABLE `textura_suelo` (
+  `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(50) UNIQUE NOT NULL,
+  `descripcion` TEXT,
+  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+  `fecha_modificacion` TIMESTAMP DEFAULT null COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
+);
+
+CREATE TABLE `tonos_munsell` (
+  `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `tono` VARCHAR(5) UNIQUE NOT NULL,
+  `descripcion` TEXT
+);
+
+CREATE TABLE `valores_munsell` (
+  `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `tono_id` INT NOT NULL,
+  `valor` INT NOT NULL,
+  `croma` INT NOT NULL
+);
+
 CREATE TABLE `tipo_suelo` (
   `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(50) UNIQUE NOT NULL,
   `descripcion` TEXT,
-  `color` VARCHAR(50) NOT NULL,
-  `textura` VARCHAR(50) NOT NULL,
-  `valor_munsell` VARCHAR(20) NOT NULL,
+  `color_id` INT NOT NULL,
+  `textura_id` INT NOT NULL,
+  `munsell_id` INT,
   `caracteristicas_generales` TEXT,
   `recomendaciones_manejo` TEXT,
   `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
@@ -335,8 +418,8 @@ CREATE TABLE `tipo_suelo` (
 
 CREATE TABLE `analisis_suelo` (
   `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `id_lote` INT NOT NULL,
-  `id_tipo_suelo` INT NOT NULL,
+  `lote_id` INT NOT NULL,
+  `tipo_suelo_id` INT NOT NULL,
   `fecha_analisis` DATE NOT NULL,
   `imagen_suelo` MEDIUMBLOB NOT NULL,
   `confianza_clasificacion` DECIMAL(5,2) NOT NULL,
@@ -347,7 +430,7 @@ CREATE TABLE `analisis_suelo` (
 
 CREATE TABLE `deteccion_gusano_cogollero` (
   `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `id_lote` INT NOT NULL,
+  `lote_id` INT NOT NULL,
   `fecha_deteccion` TIMESTAMP NOT NULL,
   `imagen_planta` MEDIUMBLOB NOT NULL,
   `resultado_deteccion` ENUM(Detectado,No Detectado,Indeterminado) NOT NULL,
@@ -367,10 +450,18 @@ CREATE TABLE `estado_informe` (
   `fecha_modificacion` TIMESTAMP DEFAULT null COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
 );
 
+CREATE TABLE `tipo_informe` (
+  `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(50) UNIQUE NOT NULL,
+  `descripcion` TEXT,
+  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+  `fecha_modificacion` TIMESTAMP DEFAULT (NULL) COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
+);
+
 CREATE TABLE `informe` (
   `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `tipo_informe` VARCHAR(50) NOT NULL,
-  `id_lote` INT,
+  `tipo_informe_id` INT NOT NULL,
+  `lote_id` INT,
   `fecha_generacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
   `periodo_inicio` DATE NOT NULL,
   `periodo_fin` DATE NOT NULL,
@@ -392,13 +483,19 @@ ALTER TABLE `usuario_finca_rol` ADD FOREIGN KEY (`finca_id`) REFERENCES `finca` 
 
 ALTER TABLE `usuario_finca_rol` ADD FOREIGN KEY (`rol_id`) REFERENCES `rol` (`id`);
 
-ALTER TABLE `lote` ADD FOREIGN KEY (`id_finca`) REFERENCES `finca` (`id`);
+ALTER TABLE `lote` ADD FOREIGN KEY (`finca_id`) REFERENCES `finca` (`id`);
+
+ALTER TABLE `variedad_maiz` ADD FOREIGN KEY (`altura_planta_unidad_id`) REFERENCES `unidad_medida` (`id`);
 
 ALTER TABLE `variedad_maiz` ADD FOREIGN KEY (`rendimiento_promedio_unidad_id`) REFERENCES `unidad_medida` (`id`);
 
-ALTER TABLE `cultivo` ADD FOREIGN KEY (`id_lote`) REFERENCES `lote` (`id`);
+ALTER TABLE `variedad_maiz` ADD FOREIGN KEY (`tipo_grano_id`) REFERENCES `tipo_grano` (`id`);
 
-ALTER TABLE `cultivo` ADD FOREIGN KEY (`id_variedad_maiz`) REFERENCES `variedad_maiz` (`id`);
+ALTER TABLE `variedad_maiz` ADD FOREIGN KEY (`densidad_siembra_unidad_id`) REFERENCES `unidad_medida` (`id`);
+
+ALTER TABLE `cultivo` ADD FOREIGN KEY (`lote_id`) REFERENCES `lote` (`id`);
+
+ALTER TABLE `cultivo` ADD FOREIGN KEY (`variedad_maiz_id`) REFERENCES `variedad_maiz` (`id`);
 
 ALTER TABLE `cultivo` ADD FOREIGN KEY (`area_sembrada_unidad_id`) REFERENCES `unidad_medida` (`id`);
 
@@ -412,37 +509,47 @@ ALTER TABLE `cultivo` ADD FOREIGN KEY (`precio_venta_unitario_unidad_id`) REFERE
 
 ALTER TABLE `unidad_medida` ADD FOREIGN KEY (`categoria_id`) REFERENCES `categoria_unidad_medida` (`id`);
 
-ALTER TABLE `tarea_labor_cultural` ADD FOREIGN KEY (`id_tipo_labor`) REFERENCES `tipo_labor_cultural` (`id`);
+ALTER TABLE `tarea_labor_cultural` ADD FOREIGN KEY (`tipo_labor_id`) REFERENCES `tipo_labor_cultural` (`id`);
 
 ALTER TABLE `tarea_labor_cultural` ADD FOREIGN KEY (`estado_id`) REFERENCES `estado_tarea_labor_cultural` (`id`);
 
 ALTER TABLE `tipo_insumo_agricola` ADD FOREIGN KEY (`unidad_medida_id`) REFERENCES `unidad_medida` (`id`);
 
-ALTER TABLE `etapa_fenologica` ADD FOREIGN KEY (`id_variedad_maiz`) REFERENCES `variedad_maiz` (`id`);
+ALTER TABLE `etapa_fenologica` ADD FOREIGN KEY (`variedad_maiz_id`) REFERENCES `variedad_maiz` (`id`);
 
-ALTER TABLE `caracteristicas_fenotipicas` ADD FOREIGN KEY (`id_cultivo`) REFERENCES `cultivo` (`id`);
+ALTER TABLE `caracteristicas_fenotipicas` ADD FOREIGN KEY (`cultivo_id`) REFERENCES `cultivo` (`id`);
 
 ALTER TABLE `caracteristicas_fenotipicas` ADD FOREIGN KEY (`altura_planta_unidad_id`) REFERENCES `unidad_medida` (`id`);
 
 ALTER TABLE `caracteristicas_fenotipicas` ADD FOREIGN KEY (`diametro_tallo_unidad_id`) REFERENCES `unidad_medida` (`id`);
 
-ALTER TABLE `notificacion_alerta` ADD FOREIGN KEY (`id_cultivo`) REFERENCES `cultivo` (`id`);
+ALTER TABLE `alerta` ADD FOREIGN KEY (`lote_id`) REFERENCES `lote` (`id`);
 
-ALTER TABLE `notificacion_alerta` ADD FOREIGN KEY (`estado_id`) REFERENCES `estado_notificacion_alerta` (`id`);
+ALTER TABLE `alerta` ADD FOREIGN KEY (`tipo_alerta`) REFERENCES `tipo_alerta` (`id`);
 
-ALTER TABLE `recomendacion` ADD FOREIGN KEY (`id_lote`) REFERENCES `lote` (`id`);
+ALTER TABLE `alerta` ADD FOREIGN KEY (`estado_id`) REFERENCES `estado_alerta` (`id`);
+
+ALTER TABLE `notificacion` ADD FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`);
+
+ALTER TABLE `notificacion` ADD FOREIGN KEY (`tipo_notificacion`) REFERENCES `tipo_notificacion` (`id`);
+
+ALTER TABLE `notificacion` ADD FOREIGN KEY (`estado_id`) REFERENCES `estado_notificacion` (`id`);
+
+ALTER TABLE `recomendacion` ADD FOREIGN KEY (`lote_id`) REFERENCES `lote` (`id`);
+
+ALTER TABLE `recomendacion` ADD FOREIGN KEY (`tipo_recomendacion_id`) REFERENCES `tipo_recomendacion` (`id`);
 
 ALTER TABLE `recomendacion` ADD FOREIGN KEY (`estado_id`) REFERENCES `estado_recomendacion` (`id`);
 
-ALTER TABLE `accion_mitigacion` ADD FOREIGN KEY (`id_recomendacion`) REFERENCES `recomendacion` (`id`);
+ALTER TABLE `accion_mitigacion` ADD FOREIGN KEY (`recomendacion_id`) REFERENCES `recomendacion` (`id`);
 
 ALTER TABLE `accion_mitigacion` ADD FOREIGN KEY (`estado_id`) REFERENCES `estado_accion_mitigacion` (`id`);
 
-ALTER TABLE `aplicacion_insumo` ADD FOREIGN KEY (`id_tarea_labor`) REFERENCES `tarea_labor_cultural` (`id`);
+ALTER TABLE `aplicacion_insumo` ADD FOREIGN KEY (`tarea_labor_id`) REFERENCES `tarea_labor_cultural` (`id`);
 
 ALTER TABLE `aplicacion_insumo` ADD FOREIGN KEY (`insumo_id`) REFERENCES `tipo_insumo_agricola` (`id`);
 
-ALTER TABLE `uso_maquinaria` ADD FOREIGN KEY (`id_tarea_labor`) REFERENCES `tarea_labor_cultural` (`id`);
+ALTER TABLE `uso_maquinaria` ADD FOREIGN KEY (`tarea_labor_id`) REFERENCES `tarea_labor_cultural` (`id`);
 
 ALTER TABLE `uso_maquinaria` ADD FOREIGN KEY (`maquinaria_id`) REFERENCES `tipo_maquinaria_agricola` (`id`);
 
@@ -452,7 +559,7 @@ ALTER TABLE `asignacion` ADD FOREIGN KEY (`tarea_labor_cultural_id`) REFERENCES 
 
 ALTER TABLE `asignacion` ADD FOREIGN KEY (`estado_id`) REFERENCES `estado_asignacion` (`id`);
 
-ALTER TABLE `registro_meteorologico` ADD FOREIGN KEY (`id_lote`) REFERENCES `lote` (`id`);
+ALTER TABLE `registro_meteorologico` ADD FOREIGN KEY (`lote_id`) REFERENCES `lote` (`id`);
 
 ALTER TABLE `registro_meteorologico` ADD FOREIGN KEY (`temperatura_unidad_id`) REFERENCES `unidad_medida` (`id`);
 
@@ -462,12 +569,22 @@ ALTER TABLE `registro_meteorologico` ADD FOREIGN KEY (`humedad_unidad_id`) REFER
 
 ALTER TABLE `registro_meteorologico` ADD FOREIGN KEY (`precipitacion_unidad_id`) REFERENCES `unidad_medida` (`id`);
 
-ALTER TABLE `analisis_suelo` ADD FOREIGN KEY (`id_lote`) REFERENCES `lote` (`id`);
+ALTER TABLE `valores_munsell` ADD FOREIGN KEY (`tono_id`) REFERENCES `tonos_munsell` (`id`);
 
-ALTER TABLE `analisis_suelo` ADD FOREIGN KEY (`id_tipo_suelo`) REFERENCES `tipo_suelo` (`id`);
+ALTER TABLE `tipo_suelo` ADD FOREIGN KEY (`color_id`) REFERENCES `color_suelo` (`id`);
 
-ALTER TABLE `deteccion_gusano_cogollero` ADD FOREIGN KEY (`id_lote`) REFERENCES `lote` (`id`);
+ALTER TABLE `tipo_suelo` ADD FOREIGN KEY (`textura_id`) REFERENCES `textura_suelo` (`id`);
 
-ALTER TABLE `informe` ADD FOREIGN KEY (`id_lote`) REFERENCES `lote` (`id`);
+ALTER TABLE `tipo_suelo` ADD FOREIGN KEY (`munsell_id`) REFERENCES `valores_munsell` (`id`);
+
+ALTER TABLE `analisis_suelo` ADD FOREIGN KEY (`lote_id`) REFERENCES `lote` (`id`);
+
+ALTER TABLE `analisis_suelo` ADD FOREIGN KEY (`tipo_suelo_id`) REFERENCES `tipo_suelo` (`id`);
+
+ALTER TABLE `deteccion_gusano_cogollero` ADD FOREIGN KEY (`lote_id`) REFERENCES `lote` (`id`);
+
+ALTER TABLE `informe` ADD FOREIGN KEY (`tipo_informe_id`) REFERENCES `tipo_informe` (`id`);
+
+ALTER TABLE `informe` ADD FOREIGN KEY (`lote_id`) REFERENCES `lote` (`id`);
 
 ALTER TABLE `informe` ADD FOREIGN KEY (`estado_id`) REFERENCES `estado_informe` (`id`);
