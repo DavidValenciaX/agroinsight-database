@@ -176,7 +176,7 @@ Table caracteristicas_fenotipicas {
     altura_planta_unidad_id INT [ref: > unidad_medida.id]
     diametro_tallo DECIMAL(4,2) [not null]
     diametro_tallo_unidad_id INT [ref: > unidad_medida.id]
-    numero_hojas INT(3) [not null]
+    numero_hojas INT [not null]
     observaciones TEXT
     fecha_creacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
     fecha_modificacion TIMESTAMP [default: `NULL`, note: 'ON UPDATE CURRENT_TIMESTAMP']

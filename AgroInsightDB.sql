@@ -178,7 +178,7 @@ CREATE TABLE `caracteristicas_fenotipicas` (
   `altura_planta_unidad_id` INT,
   `diametro_tallo` DECIMAL(4,2) NOT NULL,
   `diametro_tallo_unidad_id` INT,
-  `numero_hojas` INT(3) NOT NULL,
+  `numero_hojas` INT NOT NULL,
   `observaciones` TEXT,
   `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
   `fecha_modificacion` TIMESTAMP DEFAULT (NULL) COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
