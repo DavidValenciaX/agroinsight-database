@@ -4,7 +4,6 @@ CREATE TABLE `usuario` (
   `apellido` VARCHAR(50) NOT NULL,
   `email` VARCHAR(100) UNIQUE NOT NULL,
   `password` VARCHAR(255) NOT NULL,
-  `fecha_registro` DATETIME NOT NULL,
   `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
   `fecha_modificacion` TIMESTAMP DEFAULT (NULL) COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
 );
@@ -175,7 +174,6 @@ CREATE TABLE `etapa_fenologica` (
 CREATE TABLE `caracteristicas_fenotipicas` (
   `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `cultivo_id` INT NOT NULL,
-  `fecha_registro` DATE NOT NULL,
   `altura_planta` DECIMAL(5,2) NOT NULL,
   `altura_planta_unidad_id` INT,
   `diametro_tallo` DECIMAL(4,2) NOT NULL,

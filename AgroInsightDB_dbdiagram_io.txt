@@ -4,7 +4,6 @@ Table usuario {
     apellido VARCHAR(50) [not null]
     email VARCHAR(100) [not null, unique]
     password VARCHAR(255) [not null]
-    fecha_registro DATETIME [not null]
     fecha_creacion TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
     fecha_modificacion TIMESTAMP [default: `NULL`, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
@@ -173,7 +172,6 @@ Table etapa_fenologica {
 Table caracteristicas_fenotipicas {
     id INT [pk, increment, not null]
     cultivo_id INT [not null, ref: > cultivo.id]
-    fecha_registro DATE [not null]
     altura_planta DECIMAL(5,2) [not null]
     altura_planta_unidad_id INT [ref: > unidad_medida.id]
     diametro_tallo DECIMAL(4,2) [not null]
