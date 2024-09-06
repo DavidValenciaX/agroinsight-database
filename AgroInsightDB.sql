@@ -2,8 +2,8 @@ CREATE TABLE `estado_usuario` (
   `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(50) UNIQUE NOT NULL,
   `descripcion` TEXT,
-  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `fecha_modificacion` TIMESTAMP DEFAULT NULL COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
+  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+  `fecha_modificacion` TIMESTAMP DEFAULT null COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
 );
 
 CREATE TABLE `usuario` (
@@ -13,11 +13,10 @@ CREATE TABLE `usuario` (
   `email` VARCHAR(100) UNIQUE NOT NULL,
   `password` VARCHAR(255) NOT NULL,
   `failed_attempts` INT NOT NULL DEFAULT 0,
-  `locked_until` DATETIME DEFAULT NULL,
+  `locked_until` DATETIME DEFAULT null,
   `state_id` INT NOT NULL,
-  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `fecha_modificacion` TIMESTAMP DEFAULT NULL COMMENT 'ON UPDATE CURRENT_TIMESTAMP',
-  FOREIGN KEY (`state_id`) REFERENCES `estado_usuario`(`id`)
+  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+  `fecha_modificacion` TIMESTAMP DEFAULT null COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
 );
 
 CREATE TABLE `rol` (
@@ -56,13 +55,20 @@ CREATE TABLE `finca` (
   `fecha_modificacion` TIMESTAMP DEFAULT (NULL) COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
 );
 
-CREATE TABLE `usuario_finca_rol` (
+CREATE TABLE `usuario_rol` (
   `usuario_id` INT NOT NULL,
-  `finca_id` INT NOT NULL,
   `rol_id` INT NOT NULL,
   `fecha_asignacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-  `fecha_modificacion` TIMESTAMP DEFAULT (NULL) COMMENT 'ON UPDATE CURRENT_TIMESTAMP',
-  PRIMARY KEY (`usuario_id`, `finca_id`, `rol_id`)
+  `fecha_modificacion` TIMESTAMP DEFAULT null COMMENT 'ON UPDATE CURRENT_TIMESTAMP',
+  PRIMARY KEY (`usuario_id`, `rol_id`)
+);
+
+CREATE TABLE `usuario_finca` (
+  `usuario_id` INT NOT NULL,
+  `finca_id` INT NOT NULL,
+  `fecha_asignacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+  `fecha_modificacion` TIMESTAMP DEFAULT null COMMENT 'ON UPDATE CURRENT_TIMESTAMP',
+  PRIMARY KEY (`usuario_id`, `finca_id`)
 );
 
 CREATE TABLE `lote` (
@@ -218,7 +224,7 @@ CREATE TABLE `alerta` (
   `tipo_alerta` INT NOT NULL,
   `descripcion` TEXT NOT NULL,
   `fecha_generacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-  `nivel_urgencia` ENUM('Baja', 'Media', 'Alta') NOT NULL,
+  `nivel_urgencia` ENUM ('Baja', 'Media', 'Alta') NOT NULL,
   `estado_id` INT NOT NULL,
   `fecha_modificacion` TIMESTAMP DEFAULT (NULL) COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
 );
@@ -264,7 +270,7 @@ CREATE TABLE `recomendacion` (
   `tipo_recomendacion_id` INT NOT NULL,
   `descripcion` TEXT NOT NULL,
   `fecha_generacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-  `prioridad` ENUM('Baja', 'Media', 'Alta') NOT NULL,
+  `prioridad` ENUM ('Baja', 'Media', 'Alta') NOT NULL,
   `estado_id` INT NOT NULL,
   `fecha_modificacion` TIMESTAMP DEFAULT (NULL) COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
 );
@@ -290,8 +296,8 @@ CREATE TABLE `aplicacion_insumo` (
   `costo_unitario` DECIMAL(10,2) NOT NULL,
   `costo_total` DECIMAL(10,2) NOT NULL,
   `observaciones` TEXT,
-  `fecha_creacion` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  `fecha_actualizacion` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `fecha_creacion` TIMESTAMP DEFAULT (CURRENT_TIMESTAMP),
+  `fecha_actualizacion` TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
 );
 
 CREATE TABLE `uso_maquinaria` (
@@ -301,8 +307,8 @@ CREATE TABLE `uso_maquinaria` (
   `fecha_uso` DATE NOT NULL,
   `horas_uso` DECIMAL(5,2) NOT NULL,
   `costo_total` DECIMAL(10,2) NOT NULL,
-  `fecha_creacion` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  `fecha_actualizacion` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `fecha_creacion` TIMESTAMP DEFAULT (CURRENT_TIMESTAMP),
+  `fecha_actualizacion` TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
 );
 
 CREATE TABLE `tipo_maquinaria_agricola` (
@@ -310,8 +316,8 @@ CREATE TABLE `tipo_maquinaria_agricola` (
   `nombre` VARCHAR(255) NOT NULL,
   `descripcion` VARCHAR(255) NOT NULL,
   `costo_hora` DECIMAL(10,2) NOT NULL,
-  `fecha_creacion` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  `fecha_actualizacion` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `fecha_creacion` TIMESTAMP DEFAULT (CURRENT_TIMESTAMP),
+  `fecha_actualizacion` TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
 );
 
 CREATE TABLE `asignacion` (
@@ -443,13 +449,13 @@ CREATE TABLE `deteccion_gusano_cogollero` (
   `lote_id` INT NOT NULL,
   `fecha_deteccion` TIMESTAMP NOT NULL,
   `imagen_planta` MEDIUMBLOB NOT NULL,
-  `resultado_deteccion` ENUM('Detectado','No Detectado','Indeterminado') NOT NULL,
+  `resultado_deteccion` ENUM ('Detectado', 'No Detectado', 'Indeterminado') NOT NULL,
   `confianza_deteccion` DECIMAL(5,2) NOT NULL,
   `latitud` DECIMAL(10,8),
   `longitud` DECIMAL(11,8),
   `observaciones` TEXT,
-  `fecha_creacion` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  `fecha_actualizacion` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `fecha_creacion` TIMESTAMP DEFAULT (CURRENT_TIMESTAMP),
+  `fecha_actualizacion` TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
 );
 
 CREATE TABLE `estado_informe` (
@@ -483,15 +489,19 @@ CREATE TABLE `informe` (
   `fecha_modificacion` TIMESTAMP DEFAULT null COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
 );
 
+ALTER TABLE `usuario` ADD FOREIGN KEY (`state_id`) REFERENCES `estado_usuario` (`id`);
+
+ALTER TABLE `usuario_rol` ADD FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`);
+
+ALTER TABLE `usuario_rol` ADD FOREIGN KEY (`rol_id`) REFERENCES `rol` (`id`);
+
 ALTER TABLE `rol_permiso` ADD FOREIGN KEY (`rol_id`) REFERENCES `rol` (`id`);
 
 ALTER TABLE `rol_permiso` ADD FOREIGN KEY (`permiso_id`) REFERENCES `permiso` (`id`);
 
-ALTER TABLE `usuario_finca_rol` ADD FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`);
+ALTER TABLE `usuario_finca` ADD FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`);
 
-ALTER TABLE `usuario_finca_rol` ADD FOREIGN KEY (`finca_id`) REFERENCES `finca` (`id`);
-
-ALTER TABLE `usuario_finca_rol` ADD FOREIGN KEY (`rol_id`) REFERENCES `rol` (`id`);
+ALTER TABLE `usuario_finca` ADD FOREIGN KEY (`finca_id`) REFERENCES `finca` (`id`);
 
 ALTER TABLE `lote` ADD FOREIGN KEY (`finca_id`) REFERENCES `finca` (`id`);
 
