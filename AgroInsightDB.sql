@@ -20,13 +20,11 @@ CREATE TABLE `usuario` (
 );
 
 CREATE TABLE `confirmacion_usuario` (
-    `id` INT PRIMARY KEY AUTO_INCREMENT,
-    `usuario_id` INT NOT NULL,
-    `pin` VARCHAR(4) NOT NULL,
-    `expiracion` TIMESTAMP NOT NULL,
-    `intentos` INT DEFAULT 0,
-    FOREIGN KEY (`usuario_id`) REFERENCES `usuario`(`id`) ON DELETE CASCADE,
-    UNIQUE (`usuario_id`)
+  `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `usuario_id` INT NOT NULL,
+  `pin` VARCHAR(4) NOT NULL,
+  `expiracion` TIMESTAMP NOT NULL,
+  `intentos` INT DEFAULT 0
 );
 
 CREATE TABLE `rol` (
@@ -498,6 +496,12 @@ CREATE TABLE `informe` (
   `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
   `fecha_modificacion` TIMESTAMP DEFAULT null COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
 );
+
+CREATE UNIQUE INDEX `unique_usuario_id` ON `confirmacion_usuario` (`usuario_id`);
+
+CREATE UNIQUE INDEX `idx_pin` ON `confirmacion_usuario` (`pin`);
+
+ALTER TABLE `confirmacion_usuario` ADD FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`) ON DELETE CASCADE;
 
 ALTER TABLE `usuario` ADD FOREIGN KEY (`state_id`) REFERENCES `estado_usuario` (`id`);
 

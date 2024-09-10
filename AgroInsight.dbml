@@ -22,7 +22,7 @@ Table "estado_usuario" {
   "nombre" VARCHAR(50) [unique, not null]
   "descripcion" TEXT
   "fecha_creacion" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
-  "fecha_modificacion" TIMESTAMP [default: NULL, note: 'ON UPDATE CURRENT_TIMESTAMP']
+  "fecha_modificacion" TIMESTAMP [default: null, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
 
 Table "usuario" {
@@ -32,10 +32,23 @@ Table "usuario" {
   "email" VARCHAR(100) [unique, not null]
   "password" VARCHAR(255) [not null]
   "failed_attempts" INT [not null, default: 0]
-  "locked_until" DATETIME [default: NULL]
+  "locked_until" DATETIME [default: null]
   "state_id" INT [not null]
   "fecha_creacion" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
-  "fecha_modificacion" TIMESTAMP [default: NULL, note: 'ON UPDATE CURRENT_TIMESTAMP']
+  "fecha_modificacion" TIMESTAMP [default: null, note: 'ON UPDATE CURRENT_TIMESTAMP']
+}
+
+Table "confirmacion_usuario" {
+  "id" INT [pk, increment]
+  "usuario_id" INT [not null]
+  "pin" VARCHAR(4) [not null]
+  "expiracion" TIMESTAMP [not null]
+  "intentos" INT [default: 0]
+
+  Indexes {
+    usuario_id [unique, name: "unique_usuario_id"]
+    pin [unique, name: "idx_pin"]
+  }
 }
 
 Table "rol" {
@@ -77,15 +90,25 @@ Table "finca" {
   "fecha_modificacion" TIMESTAMP [default: `NULL`, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
 
-Table "usuario_finca_rol" {
+Table "usuario_rol" {
   "usuario_id" INT [not null]
-  "finca_id" INT [not null]
   "rol_id" INT [not null]
   "fecha_asignacion" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
-  "fecha_modificacion" TIMESTAMP [default: `NULL`, note: 'ON UPDATE CURRENT_TIMESTAMP']
+  "fecha_modificacion" TIMESTAMP [default: null, note: 'ON UPDATE CURRENT_TIMESTAMP']
 
   Indexes {
-    (usuario_id, finca_id, rol_id) [pk]
+    (usuario_id, rol_id) [pk]
+  }
+}
+
+Table "usuario_finca" {
+  "usuario_id" INT [not null]
+  "finca_id" INT [not null]
+  "fecha_asignacion" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+  "fecha_modificacion" TIMESTAMP [default: null, note: 'ON UPDATE CURRENT_TIMESTAMP']
+
+  Indexes {
+    (usuario_id, finca_id) [pk]
   }
 }
 
@@ -507,17 +530,21 @@ Table "informe" {
   "fecha_modificacion" TIMESTAMP [default: null, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
 
+Ref:"usuario"."id" < "confirmacion_usuario"."usuario_id" [delete: cascade]
+
 Ref:"estado_usuario"."id" < "usuario"."state_id"
+
+Ref:"usuario"."id" < "usuario_rol"."usuario_id"
+
+Ref:"rol"."id" < "usuario_rol"."rol_id"
 
 Ref:"rol"."id" < "rol_permiso"."rol_id"
 
 Ref:"permiso"."id" < "rol_permiso"."permiso_id"
 
-Ref:"usuario"."id" < "usuario_finca_rol"."usuario_id"
+Ref:"usuario"."id" < "usuario_finca"."usuario_id"
 
-Ref:"finca"."id" < "usuario_finca_rol"."finca_id"
-
-Ref:"rol"."id" < "usuario_finca_rol"."rol_id"
+Ref:"finca"."id" < "usuario_finca"."finca_id"
 
 Ref:"finca"."id" < "lote"."finca_id"
 
