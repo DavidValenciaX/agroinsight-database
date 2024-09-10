@@ -19,6 +19,16 @@ CREATE TABLE `usuario` (
   `fecha_modificacion` TIMESTAMP DEFAULT null COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
 );
 
+CREATE TABLE `confirmacion_usuario` (
+    `id` INT PRIMARY KEY AUTO_INCREMENT,
+    `usuario_id` INT NOT NULL,
+    `pin` VARCHAR(4) NOT NULL,
+    `expiracion` TIMESTAMP NOT NULL,
+    `intentos` INT DEFAULT 0,
+    FOREIGN KEY (`usuario_id`) REFERENCES `usuario`(`id`) ON DELETE CASCADE,
+    UNIQUE (`usuario_id`)
+);
+
 CREATE TABLE `rol` (
   `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(50) UNIQUE NOT NULL,
