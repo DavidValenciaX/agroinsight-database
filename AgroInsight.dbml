@@ -41,13 +41,24 @@ Table "usuario" {
 Table "confirmacion_usuario" {
   "id" INT [pk, increment]
   "usuario_id" INT [not null]
-  "pin" VARCHAR(4) [not null]
+  "pin" VARCHAR(64) [not null]
   "expiracion" TIMESTAMP [not null]
   "intentos" INT [default: 0]
 
   Indexes {
-    usuario_id [unique, name: "unique_usuario_id"]
     pin [unique, name: "idx_pin"]
+  }
+}
+
+Table "verificacion_dos_pasos" {
+  "id" INT [pk, increment]
+  "usuario_id" INT [not null]
+  "pin" VARCHAR(64) [not null]
+  "expiracion" TIMESTAMP [not null]
+  "intentos" INT [default: 0]
+
+  Indexes {
+    pin [unique, name: "idx_verificacion_pin"]
   }
 }
 
@@ -529,6 +540,8 @@ Table "informe" {
   "fecha_creacion" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
   "fecha_modificacion" TIMESTAMP [default: null, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
+
+Ref:"usuario"."id" < "verificacion_dos_pasos"."usuario_id" [delete: cascade]
 
 Ref:"usuario"."id" < "confirmacion_usuario"."usuario_id" [delete: cascade]
 
