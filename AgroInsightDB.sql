@@ -35,6 +35,14 @@ CREATE TABLE `verificacion_dos_pasos` (
   `intentos` INT DEFAULT 0
 );
 
+CREATE TABLE `recuperacion_contrasena` (
+  `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `usuario_id` INT NOT NULL,
+  `pin` VARCHAR(64) NOT NULL,
+  `expiracion` TIMESTAMP NOT NULL,
+  `intentos` INT DEFAULT 0
+);
+
 CREATE TABLE `rol` (
   `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(50) UNIQUE NOT NULL,
@@ -509,9 +517,13 @@ CREATE UNIQUE INDEX `idx_pin` ON `confirmacion_usuario` (`pin`);
 
 CREATE UNIQUE INDEX `idx_verificacion_pin` ON `verificacion_dos_pasos` (`pin`);
 
+CREATE UNIQUE INDEX `idx_recuperacion_pin` ON `recuperacion_contrasena` (`pin`);
+
 ALTER TABLE `verificacion_dos_pasos` ADD FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`) ON DELETE CASCADE;
 
 ALTER TABLE `confirmacion_usuario` ADD FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `recuperacion_contrasena` ADD FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`) ON DELETE CASCADE;
 
 ALTER TABLE `usuario` ADD FOREIGN KEY (`state_id`) REFERENCES `estado_usuario` (`id`);
 

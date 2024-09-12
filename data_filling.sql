@@ -11,10 +11,3 @@ INSERT INTO rol (nombre, descripcion) VALUES
 ('Trabajador Agrícola', 'Personal encargado de tareas operativas en las fincas'),
 ('Usuario', 'Rol básico para usuarios recién registrados sin acceso a fincas'),
 ('Usuario No Confirmado', 'Rol para usuarios recién registrados pendientes de confirmación');
-
-INSERT INTO finca (nombre, ubicacion, area_total, latitud, longitud) VALUES
-('Finca Los Pinos', 'Valle del Cauca, Colombia', 150.75, 3.451647, -76.531985),
-('Finca El Roble', 'Antioquia, Colombia', 200.50, 6.244203, -75.581212),
-('Finca Las Flores', 'Cundinamarca, Colombia', 120.00, 4.710989, -74.072092),
-('Finca La Esperanza', 'Nariño, Colombia', 300.00, 1.208926, -77.277210),
-('Finca San Rafael', 'Boyacá, Colombia', 250.25, 5.535278, -73.367778);

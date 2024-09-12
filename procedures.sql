@@ -11,6 +11,10 @@ BEGIN
     -- Eliminar registros de verificacion_dos_pasos expirados
     DELETE FROM verificacion_dos_pasos
     WHERE expiracion < NOW();
+
+    -- Eliminar registros de recuperacion_contrasena expirados
+    DELETE FROM recuperacion_contrasena
+    WHERE expiracion < NOW();
 END //
 
 DELIMITER ;
