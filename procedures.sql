@@ -1,4 +1,4 @@
--- Procedimiento limpiar registros de confirmacion de usuario y verificacion en 2 pasos
+-- Procedimiento limpiar registros de confirmacion de usuario, verificacion en 2 pasos y recuperacion contrasena
 
 DELIMITER //
 

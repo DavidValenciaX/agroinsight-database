@@ -62,6 +62,18 @@ Table "verificacion_dos_pasos" {
   }
 }
 
+Table "recuperacion_contrasena" {
+  "id" INT [pk, increment]
+  "usuario_id" INT [not null]
+  "pin" VARCHAR(64) [not null]
+  "expiracion" TIMESTAMP [not null]
+  "intentos" INT [default: 0]
+
+  Indexes {
+    pin [unique, name: "idx_recuperacion_pin"]
+  }
+}
+
 Table "rol" {
   "id" INT [pk, not null, increment]
   "nombre" VARCHAR(50) [unique, not null]
@@ -544,6 +556,8 @@ Table "informe" {
 Ref:"usuario"."id" < "verificacion_dos_pasos"."usuario_id" [delete: cascade]
 
 Ref:"usuario"."id" < "confirmacion_usuario"."usuario_id" [delete: cascade]
+
+Ref:"usuario"."id" < "recuperacion_contrasena"."usuario_id" [delete: cascade]
 
 Ref:"estado_usuario"."id" < "usuario"."state_id"
 
