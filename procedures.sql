@@ -6,15 +6,15 @@ CREATE PROCEDURE cleanup_expired_records()
 BEGIN
     -- Eliminar registros de confirmacion_usuario expirados
     DELETE FROM confirmacion_usuario
-    WHERE expiracion < NOW();
+    WHERE expiracion < UTC_TIMESTAMP();
 
     -- Eliminar registros de verificacion_dos_pasos expirados
     DELETE FROM verificacion_dos_pasos
-    WHERE expiracion < NOW();
+    WHERE expiracion < UTC_TIMESTAMP();
 
     -- Eliminar registros de recuperacion_contrasena expirados
     DELETE FROM recuperacion_contrasena
-    WHERE expiracion < NOW();
+    WHERE expiracion < UTC_TIMESTAMP();
 END //
 
 DELIMITER ;
@@ -25,7 +25,7 @@ DROP EVENT IF EXISTS cleanup_expired_records_event;
 -- Crear un evento que ejecute el procedimiento cada 10 minutos
 CREATE EVENT cleanup_expired_records_event
 ON SCHEDULE EVERY 10 MINUTE
-DO CALL cleanup_expired_records()
+DO CALL cleanup_expired_records();
 
 
 -- Procedimiento y evento de eliminación de usuarios no confirmados
