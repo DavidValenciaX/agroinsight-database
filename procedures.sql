@@ -22,6 +22,9 @@ DELIMITER ;
 -- Eliminar evento si existe
 DROP EVENT IF EXISTS cleanup_expired_records_event;
 
+-- Asegúrate de que el Event Scheduler esté habilitado
+SET GLOBAL event_scheduler = ON;
+
 -- Crear un evento que ejecute el procedimiento cada 10 minutos
 CREATE EVENT cleanup_expired_records_event
 ON SCHEDULE EVERY 10 MINUTE
@@ -51,7 +54,34 @@ DELIMITER ;
 -- Eliminar evento si existe
 DROP EVENT IF EXISTS cleanup_pending_users_event;
 
+-- Asegúrate de que el Event Scheduler esté habilitado
+SET GLOBAL event_scheduler = ON;
+
 -- Crear un evento que ejecute el procedimiento cada 10 minutos
 CREATE EVENT cleanup_pending_users_event
 ON SCHEDULE EVERY 10 MINUTE
 DO CALL cleanup_pending_users();
+
+-- Procedimiento para limpiar tokens blacklisteados
+DELIMITER //
+
+CREATE PROCEDURE clean_blacklisted_tokens()
+BEGIN
+    -- Eliminamos los tokens blacklisteados hace más de un día
+    DELETE FROM blacklisted_tokens 
+    WHERE blacklisted_at < (UTC_TIMESTAMP() - INTERVAL 1 DAY);
+END //
+
+DELIMITER ;
+
+-- Eliminar evento si existe
+DROP EVENT IF EXISTS daily_clean_blacklisted_tokens;
+
+-- Habilitar Event Scheduler
+SET GLOBAL event_scheduler = ON;
+
+-- Crear el Evento Programado
+CREATE EVENT daily_clean_blacklisted_tokens
+ON SCHEDULE EVERY 1 DAY
+STARTS (CURRENT_TIMESTAMP + INTERVAL 1 DAY) -- Empieza dentro de 1 día desde ahora
+DO CALL clean_blacklisted_tokens();

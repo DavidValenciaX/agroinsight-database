@@ -95,6 +95,13 @@ CREATE TABLE `usuario_finca` (
   PRIMARY KEY (`usuario_id`, `finca_id`)
 );
 
+CREATE TABLE `blacklisted_tokens` (
+  `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `token` VARCHAR(500) UNIQUE NOT NULL,
+  `usuario_id` INT NOT NULL,
+  `blacklisted_at` TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
+);
+
 CREATE TABLE `lote` (
   `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(100) NOT NULL,
@@ -530,6 +537,8 @@ ALTER TABLE `usuario` ADD FOREIGN KEY (`state_id`) REFERENCES `estado_usuario` (
 ALTER TABLE `usuario_rol` ADD FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`);
 
 ALTER TABLE `usuario_rol` ADD FOREIGN KEY (`rol_id`) REFERENCES `rol` (`id`);
+
+ALTER TABLE `blacklisted_tokens` ADD FOREIGN KEY (`usuario_id`) REFERENCES `usuario`(`id`);
 
 ALTER TABLE `rol_permiso` ADD FOREIGN KEY (`rol_id`) REFERENCES `rol` (`id`);
 
