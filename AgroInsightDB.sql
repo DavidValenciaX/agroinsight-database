@@ -3,7 +3,7 @@ CREATE TABLE `estado_usuario` (
   `nombre` VARCHAR(50) UNIQUE NOT NULL,
   `descripcion` TEXT,
   `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-  `fecha_modificacion` TIMESTAMP DEFAULT NULL COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
+  `fecha_modificacion` TIMESTAMP DEFAULT null COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
 );
 
 CREATE TABLE `usuario` (
@@ -13,10 +13,10 @@ CREATE TABLE `usuario` (
   `email` VARCHAR(100) UNIQUE NOT NULL,
   `password` VARCHAR(255) NOT NULL,
   `failed_attempts` INT NOT NULL DEFAULT 0,
-  `locked_until` DATETIME DEFAULT NULL,
+  `locked_until` DATETIME DEFAULT null,
   `state_id` INT NOT NULL,
   `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-  `fecha_modificacion` TIMESTAMP DEFAULT NULL COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
+  `fecha_modificacion` TIMESTAMP DEFAULT null COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
 );
 
 CREATE TABLE `confirmacion_usuario` (
@@ -83,7 +83,7 @@ CREATE TABLE `usuario_rol` (
   `usuario_id` INT NOT NULL,
   `rol_id` INT NOT NULL,
   `fecha_asignacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-  `fecha_modificacion` TIMESTAMP DEFAULT NULL COMMENT 'ON UPDATE CURRENT_TIMESTAMP',
+  `fecha_modificacion` TIMESTAMP DEFAULT null COMMENT 'ON UPDATE CURRENT_TIMESTAMP',
   PRIMARY KEY (`usuario_id`, `rol_id`)
 );
 
@@ -91,7 +91,7 @@ CREATE TABLE `usuario_finca` (
   `usuario_id` INT NOT NULL,
   `finca_id` INT NOT NULL,
   `fecha_asignacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-  `fecha_modificacion` TIMESTAMP DEFAULT NULL COMMENT 'ON UPDATE CURRENT_TIMESTAMP',
+  `fecha_modificacion` TIMESTAMP DEFAULT null COMMENT 'ON UPDATE CURRENT_TIMESTAMP',
   PRIMARY KEY (`usuario_id`, `finca_id`)
 );
 
@@ -426,7 +426,7 @@ CREATE TABLE `color_suelo` (
   `nombre` VARCHAR(50) UNIQUE NOT NULL,
   `descripcion` TEXT,
   `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-  `fecha_modificacion` TIMESTAMP DEFAULT NULL COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
+  `fecha_modificacion` TIMESTAMP DEFAULT null COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
 );
 
 CREATE TABLE `textura_suelo` (
@@ -434,7 +434,7 @@ CREATE TABLE `textura_suelo` (
   `nombre` VARCHAR(50) UNIQUE NOT NULL,
   `descripcion` TEXT,
   `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-  `fecha_modificacion` TIMESTAMP DEFAULT NULL COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
+  `fecha_modificacion` TIMESTAMP DEFAULT null COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
 );
 
 CREATE TABLE `tonos_munsell` (
@@ -460,7 +460,7 @@ CREATE TABLE `tipo_suelo` (
   `caracteristicas_generales` TEXT,
   `recomendaciones_manejo` TEXT,
   `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-  `fecha_modificacion` TIMESTAMP DEFAULT NULL COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
+  `fecha_modificacion` TIMESTAMP DEFAULT null COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
 );
 
 CREATE TABLE `analisis_suelo` (
@@ -472,7 +472,7 @@ CREATE TABLE `analisis_suelo` (
   `confianza_clasificacion` DECIMAL(5,2) NOT NULL,
   `observaciones` TEXT,
   `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-  `fecha_modificacion` TIMESTAMP DEFAULT NULL COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
+  `fecha_modificacion` TIMESTAMP DEFAULT null COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
 );
 
 CREATE TABLE `deteccion_gusano_cogollero` (
@@ -494,7 +494,7 @@ CREATE TABLE `estado_informe` (
   `nombre` VARCHAR(50) UNIQUE NOT NULL,
   `descripcion` TEXT,
   `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-  `fecha_modificacion` TIMESTAMP DEFAULT NULL COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
+  `fecha_modificacion` TIMESTAMP DEFAULT null COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
 );
 
 CREATE TABLE `tipo_informe` (
@@ -517,7 +517,7 @@ CREATE TABLE `informe` (
   `fecha_revision` TIMESTAMP,
   `observaciones` TEXT,
   `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-  `fecha_modificacion` TIMESTAMP DEFAULT NULL COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
+  `fecha_modificacion` TIMESTAMP DEFAULT null COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
 );
 
 CREATE UNIQUE INDEX `idx_pin` ON `confirmacion_usuario` (`pin`);
@@ -538,7 +538,7 @@ ALTER TABLE `usuario_rol` ADD FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`
 
 ALTER TABLE `usuario_rol` ADD FOREIGN KEY (`rol_id`) REFERENCES `rol` (`id`);
 
-ALTER TABLE `blacklisted_tokens` ADD FOREIGN KEY (`usuario_id`) REFERENCES `usuario`(`id`);
+ALTER TABLE `blacklisted_tokens` ADD FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`);
 
 ALTER TABLE `rol_permiso` ADD FOREIGN KEY (`rol_id`) REFERENCES `rol` (`id`);
 

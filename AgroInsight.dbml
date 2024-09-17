@@ -22,7 +22,7 @@ Table "estado_usuario" {
   "nombre" VARCHAR(50) [unique, not null]
   "descripcion" TEXT
   "fecha_creacion" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
-  "fecha_modificacion" TIMESTAMP [default: null, note: 'ON UPDATE CURRENT_TIMESTAMP']
+  "fecha_modificacion" TIMESTAMP [default: NULL, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
 
 Table "usuario" {
@@ -32,10 +32,10 @@ Table "usuario" {
   "email" VARCHAR(100) [unique, not null]
   "password" VARCHAR(255) [not null]
   "failed_attempts" INT [not null, default: 0]
-  "locked_until" DATETIME [default: null]
+  "locked_until" DATETIME [default: NULL]
   "state_id" INT [not null]
   "fecha_creacion" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
-  "fecha_modificacion" TIMESTAMP [default: null, note: 'ON UPDATE CURRENT_TIMESTAMP']
+  "fecha_modificacion" TIMESTAMP [default: NULL, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
 
 Table "confirmacion_usuario" {
@@ -117,7 +117,7 @@ Table "usuario_rol" {
   "usuario_id" INT [not null]
   "rol_id" INT [not null]
   "fecha_asignacion" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
-  "fecha_modificacion" TIMESTAMP [default: null, note: 'ON UPDATE CURRENT_TIMESTAMP']
+  "fecha_modificacion" TIMESTAMP [default: NULL, note: 'ON UPDATE CURRENT_TIMESTAMP']
 
   Indexes {
     (usuario_id, rol_id) [pk]
@@ -128,11 +128,18 @@ Table "usuario_finca" {
   "usuario_id" INT [not null]
   "finca_id" INT [not null]
   "fecha_asignacion" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
-  "fecha_modificacion" TIMESTAMP [default: null, note: 'ON UPDATE CURRENT_TIMESTAMP']
+  "fecha_modificacion" TIMESTAMP [default: NULL, note: 'ON UPDATE CURRENT_TIMESTAMP']
 
   Indexes {
     (usuario_id, finca_id) [pk]
   }
+}
+
+Table "blacklisted_tokens" {
+  "id" INT [pk, increment]
+  "token" VARCHAR(500) [unique, not null]
+  "usuario_id" INT [not null]
+  "blacklisted_at" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
 }
 
 Table "lote" {
@@ -459,7 +466,7 @@ Table "color_suelo" {
   "nombre" VARCHAR(50) [unique, not null]
   "descripcion" TEXT
   "fecha_creacion" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
-  "fecha_modificacion" TIMESTAMP [default: null, note: 'ON UPDATE CURRENT_TIMESTAMP']
+  "fecha_modificacion" TIMESTAMP [default: NULL, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
 
 Table "textura_suelo" {
@@ -467,7 +474,7 @@ Table "textura_suelo" {
   "nombre" VARCHAR(50) [unique, not null]
   "descripcion" TEXT
   "fecha_creacion" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
-  "fecha_modificacion" TIMESTAMP [default: null, note: 'ON UPDATE CURRENT_TIMESTAMP']
+  "fecha_modificacion" TIMESTAMP [default: NULL, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
 
 Table "tonos_munsell" {
@@ -493,7 +500,7 @@ Table "tipo_suelo" {
   "caracteristicas_generales" TEXT
   "recomendaciones_manejo" TEXT
   "fecha_creacion" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
-  "fecha_modificacion" TIMESTAMP [default: null, note: 'ON UPDATE CURRENT_TIMESTAMP']
+  "fecha_modificacion" TIMESTAMP [default: NULL, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
 
 Table "analisis_suelo" {
@@ -505,7 +512,7 @@ Table "analisis_suelo" {
   "confianza_clasificacion" DECIMAL(5,2) [not null]
   "observaciones" TEXT
   "fecha_creacion" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
-  "fecha_modificacion" TIMESTAMP [default: null, note: 'ON UPDATE CURRENT_TIMESTAMP']
+  "fecha_modificacion" TIMESTAMP [default: NULL, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
 
 Table "deteccion_gusano_cogollero" {
@@ -527,7 +534,7 @@ Table "estado_informe" {
   "nombre" VARCHAR(50) [unique, not null]
   "descripcion" TEXT
   "fecha_creacion" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
-  "fecha_modificacion" TIMESTAMP [default: null, note: 'ON UPDATE CURRENT_TIMESTAMP']
+  "fecha_modificacion" TIMESTAMP [default: NULL, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
 
 Table "tipo_informe" {
@@ -550,7 +557,7 @@ Table "informe" {
   "fecha_revision" TIMESTAMP
   "observaciones" TEXT
   "fecha_creacion" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
-  "fecha_modificacion" TIMESTAMP [default: null, note: 'ON UPDATE CURRENT_TIMESTAMP']
+  "fecha_modificacion" TIMESTAMP [default: NULL, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
 
 Ref:"usuario"."id" < "verificacion_dos_pasos"."usuario_id" [delete: cascade]
@@ -564,6 +571,8 @@ Ref:"estado_usuario"."id" < "usuario"."state_id"
 Ref:"usuario"."id" < "usuario_rol"."usuario_id"
 
 Ref:"rol"."id" < "usuario_rol"."rol_id"
+
+Ref:"usuario"."id" < "blacklisted_tokens"."usuario_id"
 
 Ref:"rol"."id" < "rol_permiso"."rol_id"
 
