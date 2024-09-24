@@ -40,7 +40,8 @@ CREATE TABLE `recuperacion_contrasena` (
   `usuario_id` INT NOT NULL,
   `pin` VARCHAR(64) NOT NULL,
   `expiracion` TIMESTAMP NOT NULL,
-  `intentos` INT DEFAULT 0
+  `intentos` INT DEFAULT 0,
+  `pin_confirmado` BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 CREATE TABLE `rol` (

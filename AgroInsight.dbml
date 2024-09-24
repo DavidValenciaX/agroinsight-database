@@ -68,6 +68,7 @@ Table "recuperacion_contrasena" {
   "pin" VARCHAR(64) [not null]
   "expiracion" TIMESTAMP [not null]
   "intentos" INT [default: 0]
+  "pin_confirmado" BOOLEAN [not null, default: FALSE]
 
   Indexes {
     pin [unique, name: "idx_recuperacion_pin"]
