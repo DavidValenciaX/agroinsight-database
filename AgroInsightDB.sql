@@ -74,6 +74,7 @@ CREATE TABLE `finca` (
   `nombre` VARCHAR(100) NOT NULL,
   `ubicacion` VARCHAR(255) NULL,
   `area_total` DECIMAL(10,2) NOT NULL,
+  `unidad_area_id` INT NOT NULL,
   `latitud` DECIMAL(10,8) NOT NULL,
   `longitud` DECIMAL(11,8) NOT NULL,
   `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
@@ -107,9 +108,9 @@ CREATE TABLE `lote` (
   `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(100) NOT NULL,
   `area` DECIMAL(10,2) NOT NULL,
-  `ubicacion` VARCHAR(255),
-  `latitud` DECIMAL(10,8),
-  `longitud` DECIMAL(11,8),
+  `unidad_area_id` INT NOT NULL,
+  `latitud` DECIMAL(10,8) NOT NULL,
+  `longitud` DECIMAL(11,8) NOT NULL,
   `finca_id` INT NOT NULL,
   `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
   `fecha_modificacion` TIMESTAMP DEFAULT (NULL) COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
@@ -549,7 +550,11 @@ ALTER TABLE `usuario_finca` ADD FOREIGN KEY (`usuario_id`) REFERENCES `usuario` 
 
 ALTER TABLE `usuario_finca` ADD FOREIGN KEY (`finca_id`) REFERENCES `finca` (`id`);
 
+ALTER TABLE `finca` ADD FOREIGN KEY (`unidad_area_id`) REFERENCES `unidad_medida`(`id`);
+
 ALTER TABLE `lote` ADD FOREIGN KEY (`finca_id`) REFERENCES `finca` (`id`);
+
+ALTER TABLE `lote` ADD FOREIGN KEY (`unidad_area_id`) REFERENCES `unidad_medida`(`id`);
 
 ALTER TABLE `variedad_maiz` ADD FOREIGN KEY (`altura_planta_unidad_id`) REFERENCES `unidad_medida` (`id`);
 

@@ -108,6 +108,7 @@ Table "finca" {
   "nombre" VARCHAR(100) [not null]
   "ubicacion" VARCHAR(255)
   "area_total" DECIMAL(10,2) [not null]
+  "unidad_area_id" INT [not null]
   "latitud" DECIMAL(10,8) [not null]
   "longitud" DECIMAL(11,8) [not null]
   "fecha_creacion" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
@@ -147,9 +148,9 @@ Table "lote" {
   "id" INT [pk, not null, increment]
   "nombre" VARCHAR(100) [not null]
   "area" DECIMAL(10,2) [not null]
-  "ubicacion" VARCHAR(255)
-  "latitud" DECIMAL(10,8)
-  "longitud" DECIMAL(11,8)
+  "unidad_area_id" INT [not null]
+  "latitud" DECIMAL(10,8) [not null]
+  "longitud" DECIMAL(11,8) [not null]
   "finca_id" INT [not null]
   "fecha_creacion" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
   "fecha_modificacion" TIMESTAMP [default: `NULL`, note: 'ON UPDATE CURRENT_TIMESTAMP']
@@ -583,7 +584,11 @@ Ref:"usuario"."id" < "usuario_finca"."usuario_id"
 
 Ref:"finca"."id" < "usuario_finca"."finca_id"
 
+Ref:"unidad_medida"."id" < "finca"."unidad_area_id"
+
 Ref:"finca"."id" < "lote"."finca_id"
+
+Ref:"unidad_medida"."id" < "lote"."unidad_area_id"
 
 Ref:"unidad_medida"."id" < "variedad_maiz"."altura_planta_unidad_id"
 
