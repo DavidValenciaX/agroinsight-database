@@ -71,10 +71,10 @@ CREATE TABLE `rol_permiso` (
 CREATE TABLE `finca` (
   `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(100) NOT NULL,
-  `ubicacion` VARCHAR(255) NOT NULL,
+  `ubicacion` VARCHAR(255) NULL,
   `area_total` DECIMAL(10,2) NOT NULL,
-  `latitud` DECIMAL(10,8),
-  `longitud` DECIMAL(11,8),
+  `latitud` DECIMAL(10,8) NOT NULL,
+  `longitud` DECIMAL(11,8) NOT NULL,
   `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
   `fecha_modificacion` TIMESTAMP DEFAULT (NULL) COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
 );
