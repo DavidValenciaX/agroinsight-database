@@ -354,14 +354,12 @@ CREATE TABLE `tipo_maquinaria_agricola` (
 );
 
 CREATE TABLE `asignacion` (
-  `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `usuario_id` INT NOT NULL,
   `tarea_labor_cultural_id` INT NOT NULL,
-  `lote_id` INT NOT NULL,
-  `fecha_asignacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-  `estado_id` INT NOT NULL,
   `notas` TEXT,
-  `fecha_modificacion` TIMESTAMP DEFAULT (NULL) COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
+  `fecha_asignacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+  `fecha_modificacion` TIMESTAMP DEFAULT null COMMENT 'ON UPDATE CURRENT_TIMESTAMP',
+  PRIMARY KEY (`usuario_id`, `tarea_labor_cultural_id`)
 );
 
 CREATE TABLE `estado_cultivo` (
@@ -529,6 +527,10 @@ CREATE UNIQUE INDEX `idx_verificacion_pin` ON `verificacion_dos_pasos` (`pin`);
 
 CREATE UNIQUE INDEX `idx_recuperacion_pin` ON `recuperacion_contrasena` (`pin`);
 
+ALTER TABLE `asignacion` ADD FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`);
+
+ALTER TABLE `asignacion` ADD FOREIGN KEY (`tarea_labor_cultural_id`) REFERENCES `tarea_labor_cultural` (`id`);
+
 ALTER TABLE `verificacion_dos_pasos` ADD FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`) ON DELETE CASCADE;
 
 ALTER TABLE `confirmacion_usuario` ADD FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`) ON DELETE CASCADE;
@@ -624,14 +626,6 @@ ALTER TABLE `aplicacion_insumo` ADD FOREIGN KEY (`insumo_id`) REFERENCES `tipo_i
 ALTER TABLE `uso_maquinaria` ADD FOREIGN KEY (`tarea_labor_id`) REFERENCES `tarea_labor_cultural` (`id`);
 
 ALTER TABLE `uso_maquinaria` ADD FOREIGN KEY (`maquinaria_id`) REFERENCES `tipo_maquinaria_agricola` (`id`);
-
-ALTER TABLE `asignacion` ADD FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`);
-
-ALTER TABLE `asignacion` ADD FOREIGN KEY (`tarea_labor_cultural_id`) REFERENCES `tarea_labor_cultural` (`id`);
-
-ALTER TABLE `asignacion` ADD FOREIGN KEY (`estado_id`) REFERENCES `estado_asignacion` (`id`);
-
-ALTER TABLE `asignacion` ADD FOREIGN KEY (`lote_id`) REFERENCES `lote` (`id`);
 
 ALTER TABLE `registro_meteorologico` ADD FOREIGN KEY (`lote_id`) REFERENCES `lote` (`id`);
 
