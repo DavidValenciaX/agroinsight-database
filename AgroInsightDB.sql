@@ -197,6 +197,7 @@ CREATE TABLE `tarea_labor_cultural` (
   `descripcion` TEXT,
   `costo_mano_obra` DECIMAL(10,2) NOT NULL DEFAULT 0,
   `estado_id` INT NOT NULL,
+  `lote_id` INT NOT NULL,
   `observaciones` TEXT,
   `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
   `fecha_completada` DATE,
@@ -586,6 +587,8 @@ ALTER TABLE `unidad_medida` ADD FOREIGN KEY (`categoria_id`) REFERENCES `categor
 ALTER TABLE `tarea_labor_cultural` ADD FOREIGN KEY (`tipo_labor_id`) REFERENCES `tipo_labor_cultural` (`id`);
 
 ALTER TABLE `tarea_labor_cultural` ADD FOREIGN KEY (`estado_id`) REFERENCES `estado_tarea_labor_cultural` (`id`);
+
+ALTER TABLE `tarea_labor_cultural` ADD FOREIGN KEY (`lote_id`) REFERENCES `lote` (`id`);
 
 ALTER TABLE `tipo_insumo_agricola` ADD FOREIGN KEY (`unidad_medida_id`) REFERENCES `unidad_medida` (`id`);
 
