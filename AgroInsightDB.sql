@@ -357,6 +357,7 @@ CREATE TABLE `asignacion` (
   `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `usuario_id` INT NOT NULL,
   `tarea_labor_cultural_id` INT NOT NULL,
+  `lote_id` INT NOT NULL,
   `fecha_asignacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
   `estado_id` INT NOT NULL,
   `notas` TEXT,
@@ -629,6 +630,8 @@ ALTER TABLE `asignacion` ADD FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`i
 ALTER TABLE `asignacion` ADD FOREIGN KEY (`tarea_labor_cultural_id`) REFERENCES `tarea_labor_cultural` (`id`);
 
 ALTER TABLE `asignacion` ADD FOREIGN KEY (`estado_id`) REFERENCES `estado_asignacion` (`id`);
+
+ALTER TABLE `asignacion` ADD FOREIGN KEY (`lote_id`) REFERENCES `lote` (`id`);
 
 ALTER TABLE `registro_meteorologico` ADD FOREIGN KEY (`lote_id`) REFERENCES `lote` (`id`);
 

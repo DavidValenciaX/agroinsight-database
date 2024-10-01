@@ -397,6 +397,7 @@ Table "asignacion" {
   "id" INT [pk, not null, increment]
   "usuario_id" INT [not null]
   "tarea_labor_cultural_id" INT [not null]
+  "lote_id" INT [not null]
   "fecha_asignacion" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
   "estado_id" INT [not null]
   "notas" TEXT
@@ -663,6 +664,8 @@ Ref:"usuario"."id" < "asignacion"."usuario_id"
 Ref:"tarea_labor_cultural"."id" < "asignacion"."tarea_labor_cultural_id"
 
 Ref:"estado_asignacion"."id" < "asignacion"."estado_id"
+
+Ref:"lote"."id" < "asignacion"."lote_id"
 
 Ref:"lote"."id" < "registro_meteorologico"."lote_id"
 
