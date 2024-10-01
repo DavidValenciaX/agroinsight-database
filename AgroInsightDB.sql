@@ -395,14 +395,6 @@ CREATE TABLE `estado_accion_mitigacion` (
   `fecha_modificacion` TIMESTAMP DEFAULT (NULL) COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
 );
 
-CREATE TABLE `estado_asignacion` (
-  `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `nombre` VARCHAR(50) UNIQUE NOT NULL,
-  `descripcion` TEXT,
-  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-  `fecha_modificacion` TIMESTAMP DEFAULT (NULL) COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
-);
-
 CREATE TABLE `registro_meteorologico` (
   `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `lote_id` INT NOT NULL,
