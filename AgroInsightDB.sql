@@ -41,7 +41,7 @@ CREATE TABLE `recuperacion_contrasena` (
   `pin` VARCHAR(64) NOT NULL,
   `expiracion` TIMESTAMP NOT NULL,
   `intentos` INT DEFAULT 0,
-  `pin_confirmado` BOOLEAN NOT NULL DEFAULT FALSE
+  `pin_confirmado` BOOLEAN NOT NULL DEFAULT false
 );
 
 CREATE TABLE `rol` (
@@ -72,7 +72,7 @@ CREATE TABLE `rol_permiso` (
 CREATE TABLE `finca` (
   `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(100) NOT NULL,
-  `ubicacion` VARCHAR(255) NULL,
+  `ubicacion` VARCHAR(255),
   `area_total` DECIMAL(10,2) NOT NULL,
   `unidad_area_id` INT NOT NULL,
   `latitud` DECIMAL(10,8) NOT NULL,
@@ -551,11 +551,11 @@ ALTER TABLE `usuario_finca` ADD FOREIGN KEY (`usuario_id`) REFERENCES `usuario` 
 
 ALTER TABLE `usuario_finca` ADD FOREIGN KEY (`finca_id`) REFERENCES `finca` (`id`);
 
-ALTER TABLE `finca` ADD FOREIGN KEY (`unidad_area_id`) REFERENCES `unidad_medida`(`id`);
+ALTER TABLE `finca` ADD FOREIGN KEY (`unidad_area_id`) REFERENCES `unidad_medida` (`id`);
 
 ALTER TABLE `lote` ADD FOREIGN KEY (`finca_id`) REFERENCES `finca` (`id`);
 
-ALTER TABLE `lote` ADD FOREIGN KEY (`unidad_area_id`) REFERENCES `unidad_medida`(`id`);
+ALTER TABLE `lote` ADD FOREIGN KEY (`unidad_area_id`) REFERENCES `unidad_medida` (`id`);
 
 ALTER TABLE `variedad_maiz` ADD FOREIGN KEY (`altura_planta_unidad_id`) REFERENCES `unidad_medida` (`id`);
 
