@@ -25,7 +25,7 @@ CREATE TABLE `confirmacion_usuario` (
   `pin` VARCHAR(64) NOT NULL,
   `expiracion` TIMESTAMP NOT NULL,
   `intentos` INT DEFAULT 0,
-  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
   `resends` INT DEFAULT 0
 );
 
@@ -35,7 +35,7 @@ CREATE TABLE `verificacion_dos_pasos` (
   `pin` VARCHAR(64) NOT NULL,
   `expiracion` TIMESTAMP NOT NULL,
   `intentos` INT DEFAULT 0,
-  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
   `resends` INT DEFAULT 0
 );
 
@@ -46,7 +46,7 @@ CREATE TABLE `recuperacion_contrasena` (
   `expiracion` TIMESTAMP NOT NULL,
   `intentos` INT DEFAULT 0,
   `pin_confirmado` BOOLEAN NOT NULL DEFAULT false,
-  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
   `resends` INT DEFAULT 0
 );
 
