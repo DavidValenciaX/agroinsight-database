@@ -24,7 +24,9 @@ CREATE TABLE `confirmacion_usuario` (
   `usuario_id` INT NOT NULL,
   `pin` VARCHAR(64) NOT NULL,
   `expiracion` TIMESTAMP NOT NULL,
-  `intentos` INT DEFAULT 0
+  `intentos` INT DEFAULT 0,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `resends` INT DEFAULT 0
 );
 
 CREATE TABLE `verificacion_dos_pasos` (
@@ -32,7 +34,9 @@ CREATE TABLE `verificacion_dos_pasos` (
   `usuario_id` INT NOT NULL,
   `pin` VARCHAR(64) NOT NULL,
   `expiracion` TIMESTAMP NOT NULL,
-  `intentos` INT DEFAULT 0
+  `intentos` INT DEFAULT 0,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `resends` INT DEFAULT 0
 );
 
 CREATE TABLE `recuperacion_contrasena` (
@@ -41,7 +45,9 @@ CREATE TABLE `recuperacion_contrasena` (
   `pin` VARCHAR(64) NOT NULL,
   `expiracion` TIMESTAMP NOT NULL,
   `intentos` INT DEFAULT 0,
-  `pin_confirmado` BOOLEAN NOT NULL DEFAULT false
+  `pin_confirmado` BOOLEAN NOT NULL DEFAULT false,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `resends` INT DEFAULT 0
 );
 
 CREATE TABLE `rol` (
@@ -194,13 +200,13 @@ CREATE TABLE `tarea_labor_cultural` (
   `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `tipo_labor_id` INT NOT NULL,
   `fecha_programada` DATE NOT NULL,
+  `fecha_completada` DATE,
   `descripcion` TEXT,
   `costo_mano_obra` DECIMAL(10,2) NOT NULL DEFAULT 0,
   `estado_id` INT NOT NULL,
   `lote_id` INT NOT NULL,
   `observaciones` TEXT,
   `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-  `fecha_completada` DATE,
   `fecha_modificacion` TIMESTAMP DEFAULT (NULL) COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
 );
 

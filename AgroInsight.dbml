@@ -44,6 +44,8 @@ Table "confirmacion_usuario" {
   "pin" VARCHAR(64) [not null]
   "expiracion" TIMESTAMP [not null]
   "intentos" INT [default: 0]
+  "created_at" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+  "resends" INT [default: 0]
 
   Indexes {
     pin [unique, name: "idx_pin"]
@@ -56,6 +58,8 @@ Table "verificacion_dos_pasos" {
   "pin" VARCHAR(64) [not null]
   "expiracion" TIMESTAMP [not null]
   "intentos" INT [default: 0]
+  "created_at" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+  "resends" INT [default: 0]
 
   Indexes {
     pin [unique, name: "idx_verificacion_pin"]
@@ -68,7 +72,9 @@ Table "recuperacion_contrasena" {
   "pin" VARCHAR(64) [not null]
   "expiracion" TIMESTAMP [not null]
   "intentos" INT [default: 0]
-  "pin_confirmado" BOOLEAN [not null, default: FALSE]
+  "pin_confirmado" BOOLEAN [not null, default: false]
+  "created_at" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+  "resends" INT [default: 0]
 
   Indexes {
     pin [unique, name: "idx_recuperacion_pin"]
@@ -234,12 +240,13 @@ Table "tarea_labor_cultural" {
   "id" INT [pk, not null, increment]
   "tipo_labor_id" INT [not null]
   "fecha_programada" DATE [not null]
+  "fecha_completada" DATE
   "descripcion" TEXT
   "costo_mano_obra" DECIMAL(10,2) [not null, default: 0]
   "estado_id" INT [not null]
+  "lote_id" INT [not null]
   "observaciones" TEXT
   "fecha_creacion" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
-  "fecha_completada" DATE
   "fecha_modificacion" TIMESTAMP [default: `NULL`, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
 
@@ -394,14 +401,15 @@ Table "tipo_maquinaria_agricola" {
 }
 
 Table "asignacion" {
-  "id" INT [pk, not null, increment]
   "usuario_id" INT [not null]
   "tarea_labor_cultural_id" INT [not null]
-  "lote_id" INT [not null]
-  "fecha_asignacion" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
-  "estado_id" INT [not null]
   "notas" TEXT
-  "fecha_modificacion" TIMESTAMP [default: `NULL`, note: 'ON UPDATE CURRENT_TIMESTAMP']
+  "fecha_asignacion" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+  "fecha_modificacion" TIMESTAMP [default: null, note: 'ON UPDATE CURRENT_TIMESTAMP']
+
+  Indexes {
+    (usuario_id, tarea_labor_cultural_id) [pk]
+  }
 }
 
 Table "estado_cultivo" {
@@ -429,14 +437,6 @@ Table "estado_recomendacion" {
 }
 
 Table "estado_accion_mitigacion" {
-  "id" INT [pk, not null, increment]
-  "nombre" VARCHAR(50) [unique, not null]
-  "descripcion" TEXT
-  "fecha_creacion" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
-  "fecha_modificacion" TIMESTAMP [default: `NULL`, note: 'ON UPDATE CURRENT_TIMESTAMP']
-}
-
-Table "estado_asignacion" {
   "id" INT [pk, not null, increment]
   "nombre" VARCHAR(50) [unique, not null]
   "descripcion" TEXT
@@ -563,6 +563,10 @@ Table "informe" {
   "fecha_modificacion" TIMESTAMP [default: null, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
 
+Ref:"usuario"."id" < "asignacion"."usuario_id"
+
+Ref:"tarea_labor_cultural"."id" < "asignacion"."tarea_labor_cultural_id"
+
 Ref:"usuario"."id" < "verificacion_dos_pasos"."usuario_id" [delete: cascade]
 
 Ref:"usuario"."id" < "confirmacion_usuario"."usuario_id" [delete: cascade]
@@ -619,6 +623,8 @@ Ref:"tipo_labor_cultural"."id" < "tarea_labor_cultural"."tipo_labor_id"
 
 Ref:"estado_tarea_labor_cultural"."id" < "tarea_labor_cultural"."estado_id"
 
+Ref:"lote"."id" < "tarea_labor_cultural"."lote_id"
+
 Ref:"unidad_medida"."id" < "tipo_insumo_agricola"."unidad_medida_id"
 
 Ref:"variedad_maiz"."id" < "etapa_fenologica"."variedad_maiz_id"
@@ -658,14 +664,6 @@ Ref:"tipo_insumo_agricola"."id" < "aplicacion_insumo"."insumo_id"
 Ref:"tarea_labor_cultural"."id" < "uso_maquinaria"."tarea_labor_id"
 
 Ref:"tipo_maquinaria_agricola"."id" < "uso_maquinaria"."maquinaria_id"
-
-Ref:"usuario"."id" < "asignacion"."usuario_id"
-
-Ref:"tarea_labor_cultural"."id" < "asignacion"."tarea_labor_cultural_id"
-
-Ref:"estado_asignacion"."id" < "asignacion"."estado_id"
-
-Ref:"lote"."id" < "asignacion"."lote_id"
 
 Ref:"lote"."id" < "registro_meteorologico"."lote_id"
 
