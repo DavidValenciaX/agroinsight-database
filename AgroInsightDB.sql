@@ -88,17 +88,12 @@ CREATE TABLE `finca` (
 );
 
 CREATE TABLE `usuario_finca_rol` (
-  `id` INT NOT NULL AUTO_INCREMENT,
+  `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `usuario_id` INT NOT NULL,
   `finca_id` INT NOT NULL,
   `rol_id` INT NOT NULL,
-  `fecha_asignacion` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `fecha_modificacion` TIMESTAMP NULL DEFAULT NULL COMMENT 'ON UPDATE CURRENT_TIMESTAMP',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `usuario_finca_rol_unique` (`usuario_id`, `finca_id`, `rol_id`),
-  FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`),
-  FOREIGN KEY (`finca_id`) REFERENCES `finca` (`id`),
-  FOREIGN KEY (`rol_id`) REFERENCES `rol` (`id`)
+  `fecha_asignacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+  `fecha_modificacion` TIMESTAMP DEFAULT null COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
 );
 
 CREATE TABLE `blacklisted_tokens` (
@@ -523,6 +518,14 @@ CREATE UNIQUE INDEX `idx_pin` ON `confirmacion_usuario` (`pin`);
 CREATE UNIQUE INDEX `idx_verificacion_pin` ON `verificacion_dos_pasos` (`pin`);
 
 CREATE UNIQUE INDEX `idx_recuperacion_pin` ON `recuperacion_contrasena` (`pin`);
+
+CREATE UNIQUE INDEX `usuario_finca_rol_unique` ON `usuario_finca_rol` (`usuario_id`, `finca_id`, `rol_id`);
+
+ALTER TABLE `usuario_finca_rol` ADD FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`);
+
+ALTER TABLE `usuario_finca_rol` ADD FOREIGN KEY (`finca_id`) REFERENCES `finca` (`id`);
+
+ALTER TABLE `usuario_finca_rol` ADD FOREIGN KEY (`rol_id`) REFERENCES `rol` (`id`);
 
 ALTER TABLE `asignacion` ADD FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`);
 
