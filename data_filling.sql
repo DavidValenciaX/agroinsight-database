@@ -5,12 +5,10 @@ INSERT INTO estado_usuario (nombre, descripcion) VALUES
 ('pending', 'Usuario pendiente de confirmación');
 
 INSERT INTO rol (nombre, descripcion) VALUES
-('Superusuario', 'Rol con acceso completo al sistema y capacidad de gestión de usuarios'),
 ('Administrador de Finca', 'Encargado de la gestión operativa de explotaciones agrícolas con acceso a informes de alto nivel y toma de decisiones estratégicas'),
-('Agrónomo', 'Profesional con formación en agronomía para análisis y asesoramiento técnico'),
 ('Trabajador Agrícola', 'Personal encargado de tareas operativas en las fincas'),
-('Usuario', 'Rol básico para usuarios recién registrados sin acceso a fincas'),
-('Usuario No Confirmado', 'Rol para usuarios recién registrados pendientes de confirmación');
+('Rol no asignado', 'Rol básico para usuarios recién registrados sin acceso a fincas'),
+('Rol no confirmado', 'Rol para usuarios recién registrados pendientes de confirmación');
 
 -- Insertar categorías de unidades de medida
 INSERT INTO categoria_unidad_medida (nombre, descripcion) VALUES
@@ -64,10 +62,15 @@ INSERT INTO tipo_labor_cultural (nombre, descripcion) VALUES
 ('Control de plagas', 'Acciones para prevenir y eliminar plagas que afectan los cultivos.'),
 ('Control de malezas', 'Eliminación de plantas no deseadas que compiten con los cultivos por recursos.'),
 ('Cosecha', 'Recolección de los cultivos maduros para su posterior procesamiento o venta.'),
-('Post-cosecha', 'Procesos realizados después de la cosecha, como secado, limpieza y almacenamiento.'),
-('Mantenimiento de maquinaria', 'Actividades de revisión y reparación de equipos agrícolas para asegurar su buen funcionamiento.'),
+('Secado', 'Reducción del contenido de humedad de los productos cosechados para prevenir la proliferación de microorganismos y facilitar el almacenamiento.'),
+('Limpieza', 'Eliminación de residuos, tierra y otras impurezas de los productos cosechados para mejorar su calidad y preparar para el almacenamiento o procesamiento.'),
+('Clasificación y selección', 'Separación de los productos según su calidad, tamaño o estado para asegurar una mejor presentación y valor en el mercado.'),
+('Almacenamiento', 'Acondicionamiento y conservación de los productos cosechados en condiciones óptimas de temperatura, humedad y ventilación para mantener su calidad.'),
+('Empaque', 'Embalaje de los productos agrícolas para protegerlos durante el transporte y mejorar su comercialización.'),
+('Transporte', 'Movimiento de los productos desde el lugar de cosecha o almacenamiento hasta los mercados o lugares de procesamiento.'),
+('Tratamiento post-cosecha', 'Aplicación de tratamientos específicos para prolongar la vida útil de los productos, como el uso de fungicidas, recubrimientos protectores o atmósfera controlada.'),
 ('Rotación de cultivos', 'Práctica de alternar diferentes tipos de cultivos en el mismo terreno para mejorar la salud del suelo.'),
-('Monitoreo y seguimiento', 'Vigilancia constante de las condiciones de los cultivos y del medio ambiente para tomar decisiones informadas.'),
+('Monitoreo fitosanitario', 'Vigilancia sistemática de la salud de los cultivos, orientada a la detección temprana de plagas, enfermedades y otros factores fitosanitarios que puedan afectar a las plantas.'),
 ('Labranza', 'Trabajo del suelo mediante herramientas o maquinaria para prepararlo para la siembra.'),
 ('Arado', 'Proceso de romper y girar el suelo para facilitar la aireación y el drenaje.'),
 ('Rastrillado', 'Uso de herramientas para nivelar el suelo y eliminar restos de cultivos anteriores.'),
@@ -84,16 +87,10 @@ INSERT INTO tipo_labor_cultural (nombre, descripcion) VALUES
 ('Riego por goteo', 'Método de riego que suministra agua directamente a la base de cada planta.'),
 ('Riego por inundación', 'Riego que inunda el terreno con agua para asegurar la humedad necesaria.'),
 ('Control biológico de plagas', 'Uso de organismos vivos para controlar poblaciones de plagas.'),
-('Manejo integrado de plagas', 'Estrategia que combina métodos biológicos, químicos y culturales para el control de plagas.'),
 ('Deshierbe manual', 'Eliminación de malezas de forma manual para mantener el cultivo limpio.'),
 ('Deshierbe mecánico', 'Uso de maquinaria para eliminar las malezas de manera rápida y eficiente.'),
 ('Cosecha manual', 'Recolección de cultivos utilizando herramientas y mano de obra humana.'),
 ('Cosecha mecanizada', 'Recolección de cultivos mediante maquinaria especializada.'),
-('Secado de granos', 'Proceso de reducir la humedad de los granos para su conservación.'),
-('Almacenamiento de granos', 'Guardar los granos cosechados en condiciones adecuadas para su preservación.'),
-('Transporte de granos', 'Movimiento de los granos desde el campo hasta lugares de almacenamiento o procesamiento.'),
-('Monitoreo de cultivos', 'Observación regular de los cultivos para detectar problemas tempranamente.'),
-('Evaluación de rendimiento', 'Medición y análisis del rendimiento de los cultivos para optimizar futuras siembras.'),
 ('Análisis de suelo', 'Examen detallado de las características del suelo para mejorar su gestión.'),
 ('Manejo de residuos agrícolas', 'Gestión adecuada de los desechos generados en las actividades agrícolas.');
 

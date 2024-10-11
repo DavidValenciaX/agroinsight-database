@@ -87,20 +87,18 @@ CREATE TABLE `finca` (
   `fecha_modificacion` TIMESTAMP DEFAULT (NULL) COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
 );
 
-CREATE TABLE `usuario_rol` (
-  `usuario_id` INT NOT NULL,
-  `rol_id` INT NOT NULL,
-  `fecha_asignacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-  `fecha_modificacion` TIMESTAMP DEFAULT null COMMENT 'ON UPDATE CURRENT_TIMESTAMP',
-  PRIMARY KEY (`usuario_id`, `rol_id`)
-);
-
-CREATE TABLE `usuario_finca` (
+CREATE TABLE `usuario_finca_rol` (
+  `id` INT NOT NULL AUTO_INCREMENT,
   `usuario_id` INT NOT NULL,
   `finca_id` INT NOT NULL,
-  `fecha_asignacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-  `fecha_modificacion` TIMESTAMP DEFAULT null COMMENT 'ON UPDATE CURRENT_TIMESTAMP',
-  PRIMARY KEY (`usuario_id`, `finca_id`)
+  `rol_id` INT NOT NULL,
+  `fecha_asignacion` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `fecha_modificacion` TIMESTAMP NULL DEFAULT NULL COMMENT 'ON UPDATE CURRENT_TIMESTAMP',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `usuario_finca_rol_unique` (`usuario_id`, `finca_id`, `rol_id`),
+  FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`),
+  FOREIGN KEY (`finca_id`) REFERENCES `finca` (`id`),
+  FOREIGN KEY (`rol_id`) REFERENCES `rol` (`id`)
 );
 
 CREATE TABLE `blacklisted_tokens` (
@@ -538,19 +536,11 @@ ALTER TABLE `recuperacion_contrasena` ADD FOREIGN KEY (`usuario_id`) REFERENCES 
 
 ALTER TABLE `usuario` ADD FOREIGN KEY (`state_id`) REFERENCES `estado_usuario` (`id`);
 
-ALTER TABLE `usuario_rol` ADD FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`);
-
-ALTER TABLE `usuario_rol` ADD FOREIGN KEY (`rol_id`) REFERENCES `rol` (`id`);
-
 ALTER TABLE `blacklisted_tokens` ADD FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`);
 
 ALTER TABLE `rol_permiso` ADD FOREIGN KEY (`rol_id`) REFERENCES `rol` (`id`);
 
 ALTER TABLE `rol_permiso` ADD FOREIGN KEY (`permiso_id`) REFERENCES `permiso` (`id`);
-
-ALTER TABLE `usuario_finca` ADD FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`);
-
-ALTER TABLE `usuario_finca` ADD FOREIGN KEY (`finca_id`) REFERENCES `finca` (`id`);
 
 ALTER TABLE `finca` ADD FOREIGN KEY (`unidad_area_id`) REFERENCES `unidad_medida` (`id`);
 

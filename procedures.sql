@@ -37,8 +37,8 @@ DELIMITER //
 
 CREATE PROCEDURE cleanup_pending_users()
 BEGIN
-    -- Eliminar los registros de usuario_rol asociados con usuarios que tienen state_id = el ID de estado 'pending'
-    DELETE FROM usuario_rol
+    -- Eliminar los registros de usuario_finca_rol asociados con usuarios que tienen state_id = el ID de estado 'pending'
+    DELETE FROM usuario_finca_rol
     WHERE usuario_id IN (
         SELECT id FROM usuario 
         WHERE state_id = (SELECT id FROM estado_usuario WHERE nombre = 'pending')
