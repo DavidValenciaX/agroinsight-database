@@ -101,8 +101,6 @@ INSERT INTO estado_tarea_labor_cultural (nombre, descripcion) VALUES
 ('Cancelada', 'La tarea ha sido cancelada y no se llevará a cabo.'),
 ('Pendiente', 'La tarea está pendiente de recursos o condiciones necesarias para su inicio.'),
 ('Retrasada', 'La tarea ha sufrido un retraso respecto a la programación original.'),
-('Reasignada', 'La tarea ha sido asignada a otro usuario o equipo.'),
-('En Espera', 'La tarea está en espera temporalmente debido a circunstancias específicas.'),
 ('Fallida', 'La tarea no se pudo completar debido a un error o problema.'),
 ('Revisada', 'La tarea ha sido revisada y aprobada para su ejecución.'),
 ('Aprobada', 'La tarea ha sido aprobada y está lista para ser iniciada.'),
