@@ -115,31 +115,20 @@ Table "finca" {
   "ubicacion" VARCHAR(255)
   "area_total" DECIMAL(10,2) [not null]
   "unidad_area_id" INT [not null]
-  "latitud" DECIMAL(10,8) [not null]
-  "longitud" DECIMAL(11,8) [not null]
   "fecha_creacion" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
   "fecha_modificacion" TIMESTAMP [default: `NULL`, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
 
-Table "usuario_rol" {
+Table "usuario_finca_rol" {
+  "id" INT [pk, not null, increment]
   "usuario_id" INT [not null]
+  "finca_id" INT [not null]
   "rol_id" INT [not null]
   "fecha_asignacion" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
   "fecha_modificacion" TIMESTAMP [default: null, note: 'ON UPDATE CURRENT_TIMESTAMP']
 
   Indexes {
-    (usuario_id, rol_id) [pk]
-  }
-}
-
-Table "usuario_finca" {
-  "usuario_id" INT [not null]
-  "finca_id" INT [not null]
-  "fecha_asignacion" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
-  "fecha_modificacion" TIMESTAMP [default: null, note: 'ON UPDATE CURRENT_TIMESTAMP']
-
-  Indexes {
-    (usuario_id, finca_id) [pk]
+    (usuario_id, finca_id, rol_id) [unique, name: "usuario_finca_rol_unique"]
   }
 }
 
@@ -563,6 +552,12 @@ Table "informe" {
   "fecha_modificacion" TIMESTAMP [default: null, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
 
+Ref:"usuario"."id" < "usuario_finca_rol"."usuario_id"
+
+Ref:"finca"."id" < "usuario_finca_rol"."finca_id"
+
+Ref:"rol"."id" < "usuario_finca_rol"."rol_id"
+
 Ref:"usuario"."id" < "asignacion"."usuario_id"
 
 Ref:"tarea_labor_cultural"."id" < "asignacion"."tarea_labor_cultural_id"
@@ -575,19 +570,11 @@ Ref:"usuario"."id" < "recuperacion_contrasena"."usuario_id" [delete: cascade]
 
 Ref:"estado_usuario"."id" < "usuario"."state_id"
 
-Ref:"usuario"."id" < "usuario_rol"."usuario_id"
-
-Ref:"rol"."id" < "usuario_rol"."rol_id"
-
 Ref:"usuario"."id" < "blacklisted_tokens"."usuario_id"
 
 Ref:"rol"."id" < "rol_permiso"."rol_id"
 
 Ref:"permiso"."id" < "rol_permiso"."permiso_id"
-
-Ref:"usuario"."id" < "usuario_finca"."usuario_id"
-
-Ref:"finca"."id" < "usuario_finca"."finca_id"
 
 Ref:"unidad_medida"."id" < "finca"."unidad_area_id"
 

@@ -81,8 +81,6 @@ CREATE TABLE `finca` (
   `ubicacion` VARCHAR(255),
   `area_total` DECIMAL(10,2) NOT NULL,
   `unidad_area_id` INT NOT NULL,
-  `latitud` DECIMAL(10,8) NOT NULL,
-  `longitud` DECIMAL(11,8) NOT NULL,
   `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
   `fecha_modificacion` TIMESTAMP DEFAULT (NULL) COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
 );
