@@ -391,7 +391,6 @@ Table "tipo_maquinaria_agricola" {
 Table "asignacion" {
   "usuario_id" INT [not null]
   "tarea_labor_cultural_id" INT [not null]
-  "notas" TEXT
   "fecha_asignacion" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
   "fecha_modificacion" TIMESTAMP [default: null, note: 'ON UPDATE CURRENT_TIMESTAMP']
 

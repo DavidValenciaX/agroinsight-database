@@ -353,7 +353,6 @@ CREATE TABLE `tipo_maquinaria_agricola` (
 CREATE TABLE `asignacion` (
   `usuario_id` INT NOT NULL,
   `tarea_labor_cultural_id` INT NOT NULL,
-  `notas` TEXT,
   `fecha_asignacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
   `fecha_modificacion` TIMESTAMP DEFAULT null COMMENT 'ON UPDATE CURRENT_TIMESTAMP',
   PRIMARY KEY (`usuario_id`, `tarea_labor_cultural_id`)
