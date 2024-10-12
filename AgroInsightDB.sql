@@ -187,17 +187,17 @@ CREATE TABLE `tipo_labor_cultural` (
   `fecha_modificacion` TIMESTAMP DEFAULT (NULL) COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
 );
 
-CREATE TABLE tarea_labor_cultural (
-  id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  nombre VARCHAR(255) NOT NULL,
-  tipo_labor_id INT NOT NULL,
-  fecha_inicio_estimada DATE NOT NULL,
-  fecha_finalizacion DATE,
-  descripcion TEXT,
-  estado_id INT NOT NULL,
-  lote_id INT NOT NULL,
-  fecha_creacion TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-  fecha_modificacion TIMESTAMP DEFAULT (NULL) COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
+CREATE TABLE `tarea_labor_cultural` (
+  `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(255) NOT NULL,
+  `tipo_labor_id` INT NOT NULL,
+  `fecha_inicio_estimada` DATE NOT NULL,
+  `fecha_finalizacion` DATE,
+  `descripcion` TEXT,
+  `estado_id` INT NOT NULL,
+  `lote_id` INT NOT NULL,
+  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+  `fecha_modificacion` TIMESTAMP DEFAULT (NULL) COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
 );
 
 CREATE TABLE `tipo_insumo_agricola` (
