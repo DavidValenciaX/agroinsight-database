@@ -345,7 +345,7 @@ CREATE TABLE "aplicacion_insumo" (
   "costo_total" DECIMAL(10,2) NOT NULL,
   "observaciones" TEXT,
   "fecha_creacion" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP),
-  "fecha_actualizacion" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
+  "fecha_modificacion" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
 );
 
 CREATE TABLE "uso_maquinaria" (
@@ -356,7 +356,7 @@ CREATE TABLE "uso_maquinaria" (
   "horas_uso" DECIMAL(5,2) NOT NULL,
   "costo_total" DECIMAL(10,2) NOT NULL,
   "fecha_creacion" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP),
-  "fecha_actualizacion" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
+  "fecha_modificacion" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
 );
 
 CREATE TABLE "tipo_maquinaria_agricola" (
@@ -365,7 +365,7 @@ CREATE TABLE "tipo_maquinaria_agricola" (
   "descripcion" VARCHAR(255) NOT NULL,
   "costo_hora" DECIMAL(10,2) NOT NULL,
   "fecha_creacion" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP),
-  "fecha_actualizacion" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
+  "fecha_modificacion" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
 );
 
 CREATE TABLE "asignacion" (
@@ -493,7 +493,7 @@ CREATE TABLE "deteccion_gusano_cogollero" (
   "longitud" DECIMAL(11,8),
   "observaciones" TEXT,
   "fecha_creacion" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP),
-  "fecha_actualizacion" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
+  "fecha_modificacion" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
 );
 
 CREATE TABLE "estado_informe" (

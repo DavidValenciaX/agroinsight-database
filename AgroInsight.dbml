@@ -365,7 +365,7 @@ Table "aplicacion_insumo" {
   "costo_total" DECIMAL(10,2) [not null]
   "observaciones" TEXT
   "fecha_creacion" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
-  "fecha_actualizacion" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+  "fecha_modificacion" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
 }
 
 Table "uso_maquinaria" {
@@ -376,7 +376,7 @@ Table "uso_maquinaria" {
   "horas_uso" DECIMAL(5,2) [not null]
   "costo_total" DECIMAL(10,2) [not null]
   "fecha_creacion" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
-  "fecha_actualizacion" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+  "fecha_modificacion" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
 }
 
 Table "tipo_maquinaria_agricola" {
@@ -385,7 +385,7 @@ Table "tipo_maquinaria_agricola" {
   "descripcion" VARCHAR(255) [not null]
   "costo_hora" DECIMAL(10,2) [not null]
   "fecha_creacion" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
-  "fecha_actualizacion" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+  "fecha_modificacion" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
 }
 
 Table "asignacion" {
@@ -516,7 +516,7 @@ Table "deteccion_gusano_cogollero" {
   "longitud" DECIMAL(11,8)
   "observaciones" TEXT
   "fecha_creacion" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
-  "fecha_actualizacion" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+  "fecha_modificacion" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
 }
 
 Table "estado_informe" {
