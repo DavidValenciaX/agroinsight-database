@@ -90,7 +90,7 @@ CREATE TABLE `usuario_finca_rol` (
   `usuario_id` INT NOT NULL,
   `finca_id` INT NOT NULL,
   `rol_id` INT NOT NULL,
-  `fecha_asignacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
   `fecha_modificacion` TIMESTAMP DEFAULT null COMMENT 'ON UPDATE CURRENT_TIMESTAMP'
 );
 
@@ -353,7 +353,7 @@ CREATE TABLE `tipo_maquinaria_agricola` (
 CREATE TABLE `asignacion` (
   `usuario_id` INT NOT NULL,
   `tarea_labor_cultural_id` INT NOT NULL,
-  `fecha_asignacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+  `fecha_creacion` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
   `fecha_modificacion` TIMESTAMP DEFAULT null COMMENT 'ON UPDATE CURRENT_TIMESTAMP',
   PRIMARY KEY (`usuario_id`, `tarea_labor_cultural_id`)
 );

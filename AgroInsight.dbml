@@ -124,7 +124,7 @@ Table "usuario_finca_rol" {
   "usuario_id" INT [not null]
   "finca_id" INT [not null]
   "rol_id" INT [not null]
-  "fecha_asignacion" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+  "fecha_creacion" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
   "fecha_modificacion" TIMESTAMP [default: null, note: 'ON UPDATE CURRENT_TIMESTAMP']
 
   Indexes {
@@ -391,7 +391,7 @@ Table "tipo_maquinaria_agricola" {
 Table "asignacion" {
   "usuario_id" INT [not null]
   "tarea_labor_cultural_id" INT [not null]
-  "fecha_asignacion" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+  "fecha_creacion" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
   "fecha_modificacion" TIMESTAMP [default: null, note: 'ON UPDATE CURRENT_TIMESTAMP']
 
   Indexes {
