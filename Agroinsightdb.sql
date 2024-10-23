@@ -575,8 +575,6 @@ ALTER TABLE "cultivo" ADD FOREIGN KEY ("estado_id") REFERENCES "estado_cultivo" 
 
 ALTER TABLE "cultivo" ADD FOREIGN KEY ("produccion_total_unidad_id") REFERENCES "unidad_medida" ("id");
 
-ALTER TABLE "cultivo" ADD FOREIGN KEY ("precio_venta_unitario_unidad_id") REFERENCES "unidad_medida" ("id");
-
 ALTER TABLE "unidad_medida" ADD FOREIGN KEY ("categoria_id") REFERENCES "categoria_unidad_medida" ("id");
 
 ALTER TABLE "tarea_labor_cultural" ADD FOREIGN KEY ("tipo_labor_id") REFERENCES "tipo_labor_cultural" ("id");
