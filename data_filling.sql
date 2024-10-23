@@ -17,7 +17,11 @@ INSERT INTO categoria_unidad_medida (nombre, descripcion) VALUES
 ('Volumen', 'Unidades para medir capacidad o volumen'),
 ('Masa', 'Unidades para medir peso o masa'),
 ('Tiempo', 'Unidades para medir duración'),
-('Temperatura', 'Unidades para medir temperatura');
+('Temperatura', 'Unidades para medir temperatura'),
+('Densidad de siembra', 'Unidades para medir la densidad de semillas sembradas en un área determinada'),
+('Moneda', 'Unidades para representar las divisas o monedas de transacción'),
+('Rendimiento', 'Unidades para medir rendimiento de cultivos');
+
 
 -- Insertar unidades de medida
 INSERT INTO unidad_medida (nombre, abreviatura, categoria_id) VALUES
@@ -51,7 +55,20 @@ INSERT INTO unidad_medida (nombre, abreviatura, categoria_id) VALUES
 -- Temperatura
 ('Grado Celsius', '°C', 6),
 ('Grado Fahrenheit', '°F', 6),
-('Kelvin', 'K', 6);
+('Kelvin', 'K', 6),
+-- Densidad de siembra
+('Plantas por hectárea', 'plantas/ha', 7 ),
+('Semillas por hectárea', 'semillas/ha', 7 ),
+('Semillas por metro cuadrado', 'semillas/m²', 7 ),
+-- Moneda
+('Peso Colombiano', 'COP', 8),
+('Peso Mexicano', 'MXN', 8),
+('Dólar Estadounidense', 'USD', 8),
+('Euro', 'EUR', 8),
+('Libra Esterlina', 'GBP', 8),
+-- Rendimiento
+('Toneladas por hectárea', 't/ha', 9),
+('Kilogramos por hectárea', 'kg/ha', 9);
 
 
 INSERT INTO tipo_labor_cultural (nombre, descripcion) VALUES
@@ -105,4 +122,160 @@ INSERT INTO estado_tarea_labor_cultural (nombre, descripcion) VALUES
 ('Revisada', 'La tarea ha sido revisada y aprobada para su ejecución.'),
 ('Aprobada', 'La tarea ha sido aprobada y está lista para ser iniciada.'),
 ('Postergada', 'La tarea ha sido postergada para una fecha futura.'),
-('Finalizada', 'La tarea ha sido finalizada, incluyendo todas las actividades posteriores a su ejecución.');
+('Cerrada', 'Todas las actividades asociadas a la tarea han finalizado, y la tarea está completamente cerrada.');
+
+
+INSERT INTO "estado_cultivo" ("nombre", "descripcion")
+VALUES 
+('Programado', 'El cultivo está programado para su siembra.'),
+('Sembrado', 'El cultivo ha sido plantado pero aún no ha germinado.'),
+('Germinando', 'El cultivo está en proceso de germinación.'),
+('Creciendo', 'El cultivo está en la fase de crecimiento activo.'),
+('Floración', 'El cultivo ha alcanzado la etapa de floración.'),
+('Maduración', 'El cultivo está madurando y acercándose a la cosecha.'),
+('Cosechado', 'El cultivo ha sido cosechado.'),
+('Enfermo', 'El cultivo está afectado por alguna enfermedad o plaga.'),
+('Muerto', 'El cultivo ha muerto debido a condiciones adversas.'),
+('Dormante', 'El cultivo está en un estado de latencia.');
+
+-- Primero insertamos los tipos de grano identificados
+INSERT INTO tipo_grano (nombre, color, descripcion) VALUES
+('Cristalino Amarillo', 'Amarillo', 'Granos de textura dura y cristalina, color amarillo brillante, típicos en variedades para alimentación animal y humana'),
+('Cristalino Blanco', 'Blanco', 'Granos de textura dura y cristalina, color blanco, comúnmente usados para consumo humano'),
+('Semi-cristalino Amarillo', 'Amarillo', 'Granos con textura intermedia entre cristalino y dentado, color amarillo'),
+('Dulce Amarillo', 'Amarillo', 'Granos con alto contenido de azúcar, textura suave cuando están frescos, ideal para consumo como elote'),
+('Dulce Cremoso', 'Amarillo Cremoso', 'Granos dulces con tonalidad cremosa, textura suave cuando están frescos'),
+('Cristalino Harinoso', 'Amarillo', 'Granos cristalinos con cierta proporción harinosa, textura intermedia');
+
+-- Ahora insertamos las variedades de maíz
+INSERT INTO variedad_maiz (
+    nombre, 
+    nombre_cientifico, 
+    descripcion, 
+    altura_planta_promedio,
+    altura_planta_promedio_unidad_id,
+    rendimiento_promedio,
+    rendimiento_promedio_unidad_id,
+    tipo_grano_id,
+    densidad_siembra_promedio,
+    densidad_siembra_promedio_unidad_id
+) VALUES
+-- AGROSAVIA V-117
+('AGROSAVIA V-117', 'Zea Mayz L.', 'A double purpose (grain and silage) yellow corn variety that is rustic with good plant size and root system. It is also known to produce double ears 20-30% of the time. This corn is adapted to the humid Caribbean region of Colombia.', 
+268.00, -- promedio entre 243-293 cm
+(SELECT id FROM unidad_medida WHERE abreviatura = 'cm'),
+5.80,
+(SELECT id FROM unidad_medida WHERE abreviatura = 't/ha'),
+(SELECT id FROM tipo_grano WHERE nombre = 'Cristalino Amarillo'),
+52500.00, -- promedio entre 50000-55000
+(SELECT id FROM unidad_medida WHERE abreviatura = 'plantas/ha')),
+
+-- AGROSAVIA V-160 QPM
+('AGROSAVIA V-160 QPM', 'Zea Mayz L.', 'White corn variety with high lysine content. It is especially recommended for the Sinú River Valleys and the savannas of Córdoba, Sucre, and Bolívar. It may be susceptible to fall armyworm but this pest is easily controlled with integrated pest management. It is also characterized by having less than 5% rot in ears caused by the Fusarium and Aspergillus fungi.',
+224.80,
+(SELECT id FROM unidad_medida WHERE abreviatura = 'cm'),
+5.20,
+(SELECT id FROM unidad_medida WHERE abreviatura = 't/ha'),
+(SELECT id FROM tipo_grano WHERE nombre = 'Cristalino Blanco'),
+61250.00, -- promedio entre 60000-62500
+(SELECT id FROM unidad_medida WHERE abreviatura = 'plantas/ha')),
+
+-- AGROSAVIA V-121
+('AGROSAVIA V-121', 'Zea Mayz L.', 'A double purpose yellow corn that is adapted to the humid Caribbean region of Colombia, especially the Sinú River Valley and the savannas of Córdoba, Sucre, and Bolívar. While it has low incidence and severity of ear rot, it is very susceptible to fall armyworm.',
+233.30,
+(SELECT id FROM unidad_medida WHERE abreviatura = 'cm'),
+4.50, -- estimado basado en variedades similares
+(SELECT id FROM unidad_medida WHERE abreviatura = 't/ha'),
+(SELECT id FROM tipo_grano WHERE nombre = 'Semi-cristalino Amarillo'),
+62500.00,
+(SELECT id FROM unidad_medida WHERE abreviatura = 'plantas/ha')),
+
+-- AGROSAVIA V-116 HAWAII DULCE
+('AGROSAVIA V-116 HAWAII DULCE', 'Zea mayz L.', 'Sweet yellow corn that is susceptible to fall armyworm and Cercospora zeae-maydis but is minimally affected by these issues.',
+187.00,
+(SELECT id FROM unidad_medida WHERE abreviatura = 'cm'),
+5.80,
+(SELECT id FROM unidad_medida WHERE abreviatura = 't/ha'),
+(SELECT id FROM tipo_grano WHERE nombre = 'Dulce Amarillo'),
+55000.00, -- estimado basado en variedades similares
+(SELECT id FROM unidad_medida WHERE abreviatura = 'plantas/ha')),
+
+-- CORPOICA V-114
+('CORPOICA V-114', 'Zea mayz L.', 'Yellow corn variety.',
+268.00, -- promedio entre 243-293 cm
+(SELECT id FROM unidad_medida WHERE abreviatura = 'cm'),
+4.30,
+(SELECT id FROM unidad_medida WHERE abreviatura = 't/ha'),
+(SELECT id FROM tipo_grano WHERE nombre = 'Cristalino Amarillo'),
+52500.00, -- promedio entre 50000-55000
+(SELECT id FROM unidad_medida WHERE abreviatura = 'plantas/ha')),
+
+-- CORPOICA V-115 Dulce
+('CORPOICA V-115 Dulce', 'Zea mayz L.', 'A sweet, yellow corn variety that is susceptible to fall armyworm and Cercospora zeae-maydis.',
+182.00,
+(SELECT id FROM unidad_medida WHERE abreviatura = 'cm'),
+5.20,
+(SELECT id FROM unidad_medida WHERE abreviatura = 't/ha'),
+(SELECT id FROM tipo_grano WHERE nombre = 'Dulce Cremoso'),
+56000.00, -- promedio entre 50000-62000
+(SELECT id FROM unidad_medida WHERE abreviatura = 'plantas/ha')),
+
+-- CORPOICA V-159
+('CORPOICA V-159', 'Zea mayz L.', 'White corn variety.',
+211.00,
+(SELECT id FROM unidad_medida WHERE abreviatura = 'cm'),
+3.27,
+(SELECT id FROM unidad_medida WHERE abreviatura = 't/ha'),
+(SELECT id FROM tipo_grano WHERE nombre = 'Cristalino Blanco'),
+56250.00, -- promedio entre 50000-62500
+(SELECT id FROM unidad_medida WHERE abreviatura = 'plantas/ha')),
+
+-- HR-ORO
+('HR-ORO', 'Zea mayz L.', 'A hybrid yellow corn that is good for both grain and silage, making an excellent fodder with high nutritional quality.',
+232.50, -- promedio entre 225-240 cm
+(SELECT id FROM unidad_medida WHERE abreviatura = 'cm'),
+7.50, -- promedio entre 6-9 t/ha
+(SELECT id FROM unidad_medida WHERE abreviatura = 't/ha'),
+(SELECT id FROM tipo_grano WHERE nombre = 'Cristalino Amarillo'),
+77500.00, -- promedio entre 70000-85000
+(SELECT id FROM unidad_medida WHERE abreviatura = 'plantas/ha')),
+
+-- ICA V-305
+('ICA V-305', 'Zea Mayz L.', 'A hard yellow corn variety that is of medium size, uniform, with good vigor, stability, and a high yield potential. It can be intercropped with coffee (Colombia variety) and beans (Cargamantorojo variety).',
+234.00,
+(SELECT id FROM unidad_medida WHERE abreviatura = 'cm'),
+4.00,
+(SELECT id FROM unidad_medida WHERE abreviatura = 't/ha'),
+(SELECT id FROM tipo_grano WHERE nombre = 'Cristalino Harinoso'),
+58250.00, -- promedio entre 54000-62500
+(SELECT id FROM unidad_medida WHERE abreviatura = 'plantas/ha')),
+
+-- ICA V-109
+('ICA V-109', 'Zea Mayz L.', 'Yellow corn that can be used for grain or silage.',
+240.00,
+(SELECT id FROM unidad_medida WHERE abreviatura = 'cm'),
+5.00, -- promedio entre 4-6 t/ha
+(SELECT id FROM unidad_medida WHERE abreviatura = 't/ha'),
+(SELECT id FROM tipo_grano WHERE nombre = 'Cristalino Harinoso'),
+49500.00, -- promedio entre 44000-55000
+(SELECT id FROM unidad_medida WHERE abreviatura = 'plantas/ha')),
+
+-- ICA-V 156
+('ICA-V 156', 'Zea Mayz L.', 'A white corn variety that can be used for grain or silage.',
+210.00,
+(SELECT id FROM unidad_medida WHERE abreviatura = 'cm'),
+5.00, -- promedio entre 4-6 t/ha
+(SELECT id FROM unidad_medida WHERE abreviatura = 't/ha'),
+(SELECT id FROM tipo_grano WHERE nombre = 'Cristalino Blanco'),
+58250.00, -- promedio entre 54000-62500
+(SELECT id FROM unidad_medida WHERE abreviatura = 'plantas/ha')),
+
+-- SGBIOH2
+('SGBIOH2', 'Zea Mayz L.', 'A biofortified hybrid corn with a high zinc content, specifically developed by the International Maize and Wheat Improvement Center (CIMMYT) to contribute to reducing malnutrition in Colombia.',
+157.00,
+(SELECT id FROM unidad_medida WHERE abreviatura = 'cm'),
+4.50, -- estimado basado en variedades similares
+(SELECT id FROM unidad_medida WHERE abreviatura = 't/ha'),
+(SELECT id FROM tipo_grano WHERE nombre = 'Cristalino Amarillo'),
+55000.00, -- estimado basado en variedades similares
+(SELECT id FROM unidad_medida WHERE abreviatura = 'plantas/ha'));
