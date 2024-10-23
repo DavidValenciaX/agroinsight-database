@@ -557,19 +557,17 @@ ALTER TABLE "lote" ADD FOREIGN KEY ("finca_id") REFERENCES "finca" ("id");
 
 ALTER TABLE "lote" ADD FOREIGN KEY ("unidad_area_id") REFERENCES "unidad_medida" ("id");
 
-ALTER TABLE "variedad_maiz" ADD FOREIGN KEY ("altura_planta_unidad_id") REFERENCES "unidad_medida" ("id");
+ALTER TABLE "variedad_maiz" ADD FOREIGN KEY ("altura_planta_promedio_unidad_id") REFERENCES "unidad_medida" ("id");
 
 ALTER TABLE "variedad_maiz" ADD FOREIGN KEY ("rendimiento_promedio_unidad_id") REFERENCES "unidad_medida" ("id");
 
 ALTER TABLE "variedad_maiz" ADD FOREIGN KEY ("tipo_grano_id") REFERENCES "tipo_grano" ("id");
 
-ALTER TABLE "variedad_maiz" ADD FOREIGN KEY ("densidad_siembra_unidad_id") REFERENCES "unidad_medida" ("id");
+ALTER TABLE "variedad_maiz" ADD FOREIGN KEY ("densidad_siembra_promedio_unidad_id") REFERENCES "unidad_medida" ("id");
 
 ALTER TABLE "cultivo" ADD FOREIGN KEY ("lote_id") REFERENCES "lote" ("id");
 
 ALTER TABLE "cultivo" ADD FOREIGN KEY ("variedad_maiz_id") REFERENCES "variedad_maiz" ("id");
-
-ALTER TABLE "cultivo" ADD FOREIGN KEY ("area_sembrada_unidad_id") REFERENCES "unidad_medida" ("id");
 
 ALTER TABLE "cultivo" ADD FOREIGN KEY ("densidad_siembra_unidad_id") REFERENCES "unidad_medida" ("id");
 
