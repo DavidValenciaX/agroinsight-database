@@ -1,26 +1,7 @@
----- MYSQL ----
+-- Comando docker para construir imagen docker
 
--- Base datos local conectándose con uvicorn a esta no me puedo conectar con Docker porque tiene localhost
-MYSQL_PUBLIC_URL=mysql://root:12345@localhost:3306/agroinsightdb
+   docker build -t agroinsight-backend-image .
 
--- Base de datos local pero conectándose desde docker
-MYSQL_PUBLIC_URL=mysql://root:12345@host.docker.internal:3306/agroinsightdb
+-- Comando docker para correr contenedor docker
 
--- Base datos Nube Railway
-MYSQL_PUBLIC_URL=mysql://root:uykYedlFvprkpNRaLiFEHYXJHxDnTsMN@autorack.proxy.rlwy.net:15690/railway
-
--- comando para ejecutar el contenedor en local conectándose a la base de datos en la nube de railway
-docker run -p 8000:8000 -e MYSQL_PUBLIC_URL=mysql://root:uykYedlFvprkpNRaLiFEHYXJHxDnTsMN@autorack.proxy.rlwy.net:15690/railway -e SECRET_KEY="AgroInsight2024!" agroinsight-backend
-
--- comando para ejecutar el contenedor en local conectándose a la base de datos local
-docker run -p 8000:8000 -e MYSQL_PUBLIC_URL=mysql://root:12345@host.docker.internal:3306/agroinsightdb -e SECRET_KEY="AgroInsight2024!" agroinsight-backend
-
------ POSTGRESQL ------
-
--- Base de datos local
-
-DATABASE_URL="postgresql://postgres:0526@localhost:5432/agroinsightdb"
-
--- Base de datos Nube publica de Railway
-
-postgresql://postgres:lXKcsMAKzlcRYLLJTENEXSAypcwMUTgY@junction.proxy.rlwy.net:20826/railway
+   docker run -d --name agroinsight-backend-container --env-file .env.docker -p 8000:8000 agroinsight-backend-image
