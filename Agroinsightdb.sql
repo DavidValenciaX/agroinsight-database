@@ -33,6 +33,7 @@ CREATE TABLE "usuario" (
   "failed_attempts" INT NOT NULL DEFAULT 0,
   "locked_until" TIMESTAMP WITH TIME ZONE DEFAULT (NULL),
   "state_id" INT NOT NULL,
+  "acepta_terminos" BOOLEAN NOT NULL DEFAULT false,
   "fecha_creacion" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT (CURRENT_TIMESTAMP AT TIME ZONE 'UTC'),
   "fecha_modificacion" TIMESTAMP WITH TIME ZONE DEFAULT (NULL)
 );

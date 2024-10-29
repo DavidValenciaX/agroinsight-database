@@ -72,7 +72,6 @@ INSERT INTO unidad_medida (nombre, abreviatura, categoria_id) VALUES
 
 
 INSERT INTO tipo_labor_cultural (nombre, descripcion) VALUES
-('Preparación del suelo', 'Actividades destinadas a preparar el suelo para la siembra, incluyendo labranza, arado y nivelación.'),
 ('Siembra', 'Proceso de colocar las semillas en el suelo en las condiciones adecuadas para su germinación y crecimiento.'),
 ('Fertilización', 'Aplicación de nutrientes al suelo para promover el crecimiento saludable de las plantas.'),
 ('Riego', 'Suministro de agua a los cultivos para mantener una adecuada humedad del suelo.'),
@@ -92,22 +91,8 @@ INSERT INTO tipo_labor_cultural (nombre, descripcion) VALUES
 ('Arado', 'Proceso de romper y girar el suelo para facilitar la aireación y el drenaje.'),
 ('Rastrillado', 'Uso de herramientas para nivelar el suelo y eliminar restos de cultivos anteriores.'),
 ('Compactación', 'Proceso de presionar el suelo para mejorar su estructura y capacidad de retención de agua.'),
-('Aplicación de herbicidas', 'Uso de productos químicos para eliminar malezas de manera eficiente.'),
-('Aplicación de pesticidas', 'Uso de sustancias para controlar y eliminar plagas que dañan los cultivos.'),
 ('Aplicación de fungicidas', 'Uso de productos para prevenir y tratar enfermedades fúngicas en las plantas.'),
-('Fertilización orgánica', 'Uso de materiales orgánicos como compost o estiércol para enriquecer el suelo.'),
-('Fertilización química', 'Aplicación de fertilizantes sintéticos para aportar nutrientes específicos al suelo.'),
-('Siembra directa', 'Método de siembra sin labranza previa, conservando la estructura del suelo.'),
-('Siembra manual', 'Colocación de semillas en el suelo de manera manual.'),
-('Siembra mecanizada', 'Uso de maquinaria para la siembra eficiente de grandes áreas.'),
-('Riego por aspersión', 'Sistema de riego que distribuye el agua en forma de lluvia sobre los cultivos.'),
-('Riego por goteo', 'Método de riego que suministra agua directamente a la base de cada planta.'),
-('Riego por inundación', 'Riego que inunda el terreno con agua para asegurar la humedad necesaria.'),
 ('Control biológico de plagas', 'Uso de organismos vivos para controlar poblaciones de plagas.'),
-('Deshierbe manual', 'Eliminación de malezas de forma manual para mantener el cultivo limpio.'),
-('Deshierbe mecánico', 'Uso de maquinaria para eliminar las malezas de manera rápida y eficiente.'),
-('Cosecha manual', 'Recolección de cultivos utilizando herramientas y mano de obra humana.'),
-('Cosecha mecanizada', 'Recolección de cultivos mediante maquinaria especializada.'),
 ('Análisis de suelo', 'Examen detallado de las características del suelo para mejorar su gestión.'),
 ('Manejo de residuos agrícolas', 'Gestión adecuada de los desechos generados en las actividades agrícolas.');
 
