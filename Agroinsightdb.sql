@@ -512,7 +512,6 @@ CREATE TABLE "deteccion_gusano_cogollero" (
   "prob_leaf_with_larva" DECIMAL(5,4) NOT NULL,
   "prob_healthy_leaf" DECIMAL(5,4) NOT NULL,
   "prob_damaged_leaf" DECIMAL(5,4) NOT NULL,
-  "observaciones" TEXT,
   "fecha_creacion" TIMESTAMP WITH TIME ZONE DEFAULT (CURRENT_TIMESTAMP AT TIME ZONE 'UTC'),
   "fecha_modificacion" TIMESTAMP WITH TIME ZONE DEFAULT (NULL)
 );
