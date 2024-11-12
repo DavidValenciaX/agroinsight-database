@@ -264,3 +264,90 @@ INSERT INTO variedad_maiz (
 (SELECT id FROM tipo_grano WHERE nombre = 'Cristalino Amarillo'),
 55000.00, -- estimado basado en variedades similares
 (SELECT id FROM unidad_medida WHERE abreviatura = 'plantas/ha'));
+
+
+-- Inserción de tipos de suelo
+
+-- Inserción de colores de suelo
+INSERT INTO color_suelo (nombre, descripcion) VALUES
+('Marrón grisáceo', 'Color característico de suelos aluviales, indica buena aireación y drenaje'),
+('Negro', 'Color oscuro característico de suelos ricos en materia orgánica'),
+('Gris oscuro', 'Color típico de suelos volcánicos tipo cinder'),
+('Gris', 'Color característico de suelos arcillosos'),
+('Rojo', 'Color característico de suelos lateríticos, indica alto contenido de óxidos de hierro'),
+('Marrón oscuro', 'Color característico de suelos tipo turba, rico en materia orgánica'),
+('Amarillo', 'Color característico de suelos amarillos, indica presencia de óxidos de hierro hidratados');
+
+-- Inserción de texturas de suelo
+INSERT INTO textura_suelo (nombre, descripcion) VALUES
+('Franco arenosa', 'Textura equilibrada con predominio de arena, buen drenaje'),
+('Franco arcillosa', 'Textura media con buena retención de nutrientes'),
+('Arenosa gruesa', 'Textura gruesa característica de suelos volcánicos'),
+('Arcillosa', 'Textura fina con alta retención de agua y nutrientes'),
+('Franco arcillosa roja', 'Textura característica de suelos tropicales weatherizados'),
+('Fibrosa', 'Textura orgánica característica de suelos de turba'),
+('Franco limosa', 'Textura media con predominio de limo');
+
+-- Inserción de tonos Munsell
+INSERT INTO tonos_munsell (tono, descripcion) VALUES
+('10YR', 'Amarillo-rojizo'),
+('5YR', 'Rojizo'),
+('7.5YR', 'Marrón'),
+('2.5Y', 'Amarillento'),
+('5R', 'Rojo'),
+('2.5YR', 'Rojo amarillento'),
+('10Y', 'Amarillo');
+
+-- Inserción de valores Munsell
+INSERT INTO valores_munsell (tono_id, valor, croma) VALUES
+(1, 4, 2),  -- Para suelo aluvial
+(2, 2, 1),  -- Para suelo negro
+(3, 3, 1),  -- Para suelo cinder
+(4, 5, 1),  -- Para suelo arcilloso
+(5, 4, 6),  -- Para suelo laterítico
+(6, 2, 2),  -- Para suelo de turba
+(7, 6, 6);  -- Para suelo amarillo
+
+-- Inserción de tipos de suelo
+INSERT INTO tipo_suelo (nombre, descripcion, color_id, textura_id, munsell_id, caracteristicas_generales, recomendaciones_manejo) VALUES
+('Alluvial Soil', 
+ 'Suelos formados por depósitos de materiales transportados por agua', 
+ 1, 1, 1,
+ 'Alto contenido de minerales, buena fertilidad natural, estructura variable según el material parental',
+ 'Mantener cobertura vegetal para prevenir erosión, rotación de cultivos, monitoreo de drenaje'),
+
+('Black Soil', 
+ 'Suelos oscuros ricos en arcilla y materia orgánica', 
+ 2, 2, 2,
+ 'Alta capacidad de retención de agua, rico en calcio y magnesio, alta fertilidad natural',
+ 'Manejo cuidadoso de la humedad, evitar laboreo excesivo, incorporar materia orgánica'),
+
+('Cinder Soil', 
+ 'Suelos de origen volcánico formados por cenizas y escoria', 
+ 3, 3, 3,
+ 'Buen drenaje, estructura suelta, bajo contenido de nutrientes',
+ 'Incorporar materia orgánica, fertilización regular, mantener humedad'),
+
+('Clay Soil', 
+ 'Suelos con alto contenido de arcilla', 
+ 4, 4, 4,
+ 'Alta retención de agua y nutrientes, compactación frecuente, drenaje lento',
+ 'Evitar trabajar cuando está muy húmedo, incorporar materia orgánica, mejorar drenaje'),
+
+('Laterite Soil', 
+ 'Suelos tropicales altamente meteorizados', 
+ 5, 5, 5,
+ 'Alto contenido de hierro y aluminio, baja fertilidad natural, buen drenaje',
+ 'Manejo de pH, fertilización regular, conservación de materia orgánica'),
+
+('Peat Soil', 
+ 'Suelos orgánicos formados por acumulación de materia vegetal', 
+ 6, 6, 6,
+ 'Alto contenido de materia orgánica, retención de agua alta, acidez natural',
+ 'Control de nivel freático, prevención de oxidación, manejo de acidez'),
+
+('Yellow Soil', 
+ 'Suelos con alto contenido de óxidos de hierro hidratados', 
+ 7, 7, 7,
+ 'Fertilidad moderada, buen drenaje, estructura moderadamente estable',
+ 'Manejo de acidez, incorporación de materia orgánica, rotación de cultivos');
