@@ -20,7 +20,12 @@ INSERT INTO categoria_unidad_medida (nombre, descripcion) VALUES
 ('Temperatura', 'Unidades para medir temperatura'),
 ('Densidad de siembra', 'Unidades para medir la densidad de semillas sembradas en un área determinada'),
 ('Moneda', 'Unidades para representar las divisas o monedas de transacción'),
-('Rendimiento', 'Unidades para medir rendimiento de cultivos');
+('Rendimiento', 'Unidades para medir rendimiento de cultivos'),
+('Presión', 'Unidades para medir presión atmosférica'),
+('Porcentaje', 'Unidades porcentuales para diferentes mediciones'),
+('Velocidad', 'Unidades para medir velocidad del viento'),
+('Ángulo', 'Unidades para medir ángulos y direcciones'),
+('Tasa de precipitación', 'Unidades para medir cantidad de precipitación por tiempo');
 
 
 -- Insertar unidades de medida
@@ -68,7 +73,24 @@ INSERT INTO unidad_medida (nombre, abreviatura, categoria_id) VALUES
 ('Libra Esterlina', 'GBP', 8),
 -- Rendimiento
 ('Toneladas por hectárea', 't/ha', 9),
-('Kilogramos por hectárea', 'kg/ha', 9);
+('Kilogramos por hectárea', 'kg/ha', 9),
+-- Presión (asumiendo que es categoria_id = 10)
+('Hectopascal', 'hPa', 10),
+('Milibar', 'mbar', 10),
+
+-- Porcentaje (asumiendo que es categoria_id = 11)
+('Porcentaje', '%', 11),
+
+-- Velocidad (asumiendo que es categoria_id = 12)
+('Metro por segundo', 'm/s', 12),
+('Kilómetro por hora', 'km/h', 12),
+('Milla por hora', 'mph', 12),
+
+-- Ángulo (asumiendo que es categoria_id = 13)
+('Grado', '°', 13),
+
+-- Tasa de precipitación (asumiendo que es categoria_id = 14)
+('Milímetro por hora', 'mm/h', 14);
 
 
 INSERT INTO tipo_labor_cultural (nombre, descripcion) VALUES
