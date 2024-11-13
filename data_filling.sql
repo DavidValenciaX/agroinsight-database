@@ -119,17 +119,9 @@ INSERT INTO tipo_labor_cultural (nombre, descripcion) VALUES
 ('Manejo de residuos agrícolas', 'Gestión adecuada de los desechos generados en las actividades agrícolas.');
 
 INSERT INTO estado_tarea_labor_cultural (nombre, descripcion) VALUES
-('Programada', 'La tarea ha sido programada y está pendiente de inicio.'),
-('En Progreso', 'La tarea está actualmente en ejecución.'),
-('Completada', 'La tarea se ha completado exitosamente.'),
-('Cancelada', 'La tarea ha sido cancelada y no se llevará a cabo.'),
-('Pendiente', 'La tarea está pendiente de recursos o condiciones necesarias para su inicio.'),
-('Retrasada', 'La tarea ha sufrido un retraso respecto a la programación original.'),
-('Fallida', 'La tarea no se pudo completar debido a un error o problema.'),
-('Revisada', 'La tarea ha sido revisada y aprobada para su ejecución.'),
-('Aprobada', 'La tarea ha sido aprobada y está lista para ser iniciada.'),
-('Postergada', 'La tarea ha sido postergada para una fecha futura.'),
-('Cerrada', 'Todas las actividades asociadas a la tarea han finalizado, y la tarea está completamente cerrada.');
+('Pendiente', 'La tarea está pendiente de inicio'),
+('En Progreso', 'La tarea está actualmente en ejecución'),
+('Completada', 'La tarea se ha completado exitosamente');
 
 
 INSERT INTO "estado_cultivo" ("nombre", "descripcion")
