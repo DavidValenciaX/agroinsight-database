@@ -288,7 +288,7 @@ CREATE TABLE "tarea_insumo" (
   "fecha_aplicacion" DATE,
   "observaciones" TEXT,
   "fecha_creacion" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT (CURRENT_TIMESTAMP AT TIME ZONE 'UTC'),
-  "fecha_modificacion" TIMESTAMP WITH TIME ZONE DEFAULT (NULL),
+  "fecha_modificacion" TIMESTAMP WITH TIME ZONE DEFAULT (NULL)
 );
 
 ALTER TABLE "tarea_insumo" ADD FOREIGN KEY ("tarea_labor_id") REFERENCES "tarea_labor_cultural" ("id");
