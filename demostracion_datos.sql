@@ -9,7 +9,7 @@ SET
     "cantidad_vendida_unidad_id" = 15,   -- kilogramos
     "ingreso_total" = 28000000.00,       -- 8000 kg * $3,500 COP = $28,000,000 COP
     "costo_produccion" = 15000000.00,    -- $15,000,000 COP costos totales
-    "moneda_id" = 29,                    -- Peso colombiano (COP)
+    "moneda_id" = (SELECT id FROM unidad_medida WHERE nombre = 'Peso Colombiano' AND abreviatura = 'COP'),                    -- Peso Colombiano (COP)
     "fecha_venta" = '2024-05-20',        -- 5 días después de la cosecha
     "fecha_modificacion" = CURRENT_TIMESTAMP AT TIME ZONE 'UTC'
 WHERE "id" = 1;
@@ -116,41 +116,41 @@ SELECT
     CASE 
         WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Análisis de suelo' AND nivel = 'LOTE') THEN 2
         WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Labranza' AND nivel = 'LOTE') THEN 3
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Siembra' AND nivel = 'LOTE') THEN 4
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Fertilización' AND nivel = 'LOTE') THEN 3
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de malezas' AND nivel = 'LOTE') THEN 3
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Monitoreo fitosanitario' AND nivel = 'LOTE') THEN 2
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de plagas' AND nivel = 'LOTE') THEN 3
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Cosecha' AND nivel = 'LOTE') THEN 6
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Secado' AND nivel = 'LOTE') THEN 3
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Limpieza' AND nivel = 'LOTE') THEN 4
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Siembra' AND nivel = 'CULTIVO') THEN 4
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Fertilización' AND nivel = 'CULTIVO') THEN 3
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de malezas' AND nivel = 'CULTIVO') THEN 3
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Monitoreo fitosanitario' AND nivel = 'CULTIVO') THEN 2
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de plagas' AND nivel = 'CULTIVO') THEN 3
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Cosecha' AND nivel = 'CULTIVO') THEN 6
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Secado' AND nivel = 'CULTIVO') THEN 3
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Limpieza' AND nivel = 'CULTIVO') THEN 4
         ELSE 2
     END as cantidad_trabajadores,
     CASE 
         WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Análisis de suelo' AND nivel = 'LOTE') THEN 4
         WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Labranza' AND nivel = 'LOTE') THEN 8
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Siembra' AND nivel = 'LOTE') THEN 8
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Fertilización' AND nivel = 'LOTE') THEN 6
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de malezas' AND nivel = 'LOTE') THEN 6
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Monitoreo fitosanitario' AND nivel = 'LOTE') THEN 4
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de plagas' AND nivel = 'LOTE') THEN 6
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Cosecha' AND nivel = 'LOTE') THEN 10
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Secado' AND nivel = 'LOTE') THEN 8
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Limpieza' AND nivel = 'LOTE') THEN 8
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Siembra' AND nivel = 'CULTIVO') THEN 8
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Fertilización' AND nivel = 'CULTIVO') THEN 6
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de malezas' AND nivel = 'CULTIVO') THEN 6
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Monitoreo fitosanitario' AND nivel = 'CULTIVO') THEN 4
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de plagas' AND nivel = 'CULTIVO') THEN 6
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Cosecha' AND nivel = 'CULTIVO') THEN 10
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Secado' AND nivel = 'CULTIVO') THEN 8
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Limpieza' AND nivel = 'CULTIVO') THEN 8
         ELSE 4
     END as horas_trabajadas,
     5000.00 as costo_hora,
     CASE 
         WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Análisis de suelo' AND nivel = 'LOTE') THEN 40000.00
         WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Labranza' AND nivel = 'LOTE') THEN 120000.00
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Siembra' AND nivel = 'LOTE') THEN 160000.00
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Fertilización' AND nivel = 'LOTE') THEN 90000.00
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de malezas' AND nivel = 'LOTE') THEN 90000.00
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Monitoreo fitosanitario' AND nivel = 'LOTE') THEN 40000.00
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de plagas' AND nivel = 'LOTE') THEN 90000.00
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Cosecha' AND nivel = 'LOTE') THEN 300000.00
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Secado' AND nivel = 'LOTE') THEN 120000.00
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Limpieza' AND nivel = 'LOTE') THEN 160000.00
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Siembra' AND nivel = 'CULTIVO') THEN 160000.00
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Fertilización' AND nivel = 'CULTIVO') THEN 90000.00
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de malezas' AND nivel = 'CULTIVO') THEN 90000.00
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Monitoreo fitosanitario' AND nivel = 'CULTIVO') THEN 40000.00
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de plagas' AND nivel = 'CULTIVO') THEN 90000.00
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Cosecha' AND nivel = 'CULTIVO') THEN 300000.00
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Secado' AND nivel = 'CULTIVO') THEN 120000.00
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Limpieza' AND nivel = 'CULTIVO') THEN 160000.00
         ELSE 40000.00
     END as costo_total,
     'Trabajo realizado según cronograma' as observaciones
@@ -242,33 +242,33 @@ SELECT
     CASE 
         WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Labranza' AND nivel = 'LOTE') THEN 
             (SELECT id FROM maquinaria_agricola WHERE nombre = 'Tractor John Deere 6110J')
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Siembra' AND nivel = 'LOTE') THEN 
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Siembra' AND nivel = 'CULTIVO') THEN 
             (SELECT id FROM maquinaria_agricola WHERE nombre = 'Sembradora John Deere 1725')
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Fertilización' AND nivel = 'LOTE') THEN 
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Fertilización' AND nivel = 'CULTIVO') THEN 
             (SELECT id FROM maquinaria_agricola WHERE nombre = 'Fertilizadora Amazone ZA-M')
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de malezas' AND nivel = 'LOTE') THEN 
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de malezas' AND nivel = 'CULTIVO') THEN 
             (SELECT id FROM maquinaria_agricola WHERE nombre = 'Fumigadora Jacto Advance 3000')
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de plagas' AND nivel = 'LOTE') THEN 
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de plagas' AND nivel = 'CULTIVO') THEN 
             (SELECT id FROM maquinaria_agricola WHERE nombre = 'Fumigadora Jacto Advance 3000')
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Cosecha' AND nivel = 'LOTE') THEN 
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Cosecha' AND nivel = 'CULTIVO') THEN 
             (SELECT id FROM maquinaria_agricola WHERE nombre = 'Cosechadora John Deere S780')
     END as maquinaria_id,
     tlc.fecha_inicio_estimada as fecha_uso,
     CASE 
         WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Labranza' AND nivel = 'LOTE') THEN 8
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Siembra' AND nivel = 'LOTE') THEN 6
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Siembra' AND nivel = 'CULTIVO') THEN 6
         WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Fertilización' AND nivel = 'LOTE') THEN 4
         WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de malezas' AND nivel = 'LOTE') THEN 4
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de plagas' AND nivel = 'LOTE') THEN 4
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Cosecha' AND nivel = 'LOTE') THEN 8
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de plagas' AND nivel = 'CULTIVO') THEN 4
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Cosecha' AND nivel = 'CULTIVO') THEN 8
     END as horas_uso,
     CASE 
         WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Labranza' AND nivel = 'LOTE') THEN 1440000.00
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Siembra' AND nivel = 'LOTE') THEN 840000.00
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Fertilización' AND nivel = 'LOTE') THEN 352000.00
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de malezas' AND nivel = 'LOTE') THEN 400000.00
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de plagas' AND nivel = 'LOTE') THEN 400000.00
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Cosecha' AND nivel = 'LOTE') THEN 3840000.00
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Siembra' AND nivel = 'CULTIVO') THEN 840000.00
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Fertilización' AND nivel = 'CULTIVO') THEN 352000.00
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de malezas' AND nivel = 'CULTIVO') THEN 400000.00
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de plagas' AND nivel = 'CULTIVO') THEN 400000.00
+        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Cosecha' AND nivel = 'CULTIVO') THEN 3840000.00
     END as costo_total,
     'Maquinaria operada según especificaciones técnicas' as observaciones
 FROM tarea_labor_cultural tlc
@@ -276,26 +276,27 @@ WHERE tlc.lote_id = 1
 AND tlc.tipo_labor_id IN (
     SELECT id FROM tipo_labor_cultural 
     WHERE nombre IN ('Labranza', 'Siembra', 'Fertilización', 'Control de malezas', 'Control de plagas', 'Cosecha')
+    AND nivel IN ('LOTE', 'CULTIVO')
 )
 AND CASE 
     WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Labranza' AND nivel = 'LOTE') THEN 
         (SELECT id FROM maquinaria_agricola WHERE nombre = 'Tractor John Deere 6110J')
-    WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Siembra' AND nivel = 'LOTE') THEN 
+    WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Siembra' AND nivel = 'CULTIVO') THEN 
         (SELECT id FROM maquinaria_agricola WHERE nombre = 'Sembradora John Deere 1725')
-    WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Fertilización' AND nivel = 'LOTE') THEN 
+    WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Fertilización' AND nivel = 'CULTIVO') THEN 
         (SELECT id FROM maquinaria_agricola WHERE nombre = 'Fertilizadora Amazone ZA-M')
-    WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de malezas' AND nivel = 'LOTE') THEN 
+    WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de malezas' AND nivel = 'CULTIVO') THEN 
         (SELECT id FROM maquinaria_agricola WHERE nombre = 'Fumigadora Jacto Advance 3000')
-    WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de plagas' AND nivel = 'LOTE') THEN 
+    WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de plagas' AND nivel = 'CULTIVO') THEN 
         (SELECT id FROM maquinaria_agricola WHERE nombre = 'Fumigadora Jacto Advance 3000')
-    WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Cosecha' AND nivel = 'LOTE') THEN 
+    WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Cosecha' AND nivel = 'CULTIVO') THEN 
         (SELECT id FROM maquinaria_agricola WHERE nombre = 'Cosechadora John Deere S780')
 END IS NOT NULL;
 
 -- Antes de las inserciones, asegurarse que el lote tenga los nuevos campos
 UPDATE lote 
 SET costos_mantenimiento = 500000.00,
-    moneda_id = (SELECT id FROM unidad_medida WHERE nombre = 'Peso colombiano' AND categoria_id = (
+    moneda_id = (SELECT id FROM unidad_medida WHERE nombre = 'Peso Colombiano' AND categoria_id = (
         SELECT id FROM categoria_unidad_medida WHERE nombre = 'Moneda'
     ))
 WHERE id = 1;
