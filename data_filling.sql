@@ -92,29 +92,31 @@ INSERT INTO unidad_medida (nombre, abreviatura, categoria_id) VALUES
 
 
 INSERT INTO tipo_labor_cultural (nombre, descripcion) VALUES
+-- Labores que son del lote
+('Labranza', 'Trabajo del suelo mediante herramientas o maquinaria para prepararlo para la siembra.'),
+('Arado', 'Proceso de romper y girar el suelo para facilitar la aireación y el drenaje.'),
+('Rastrillado', 'Uso de herramientas para nivelar el suelo y eliminar restos de cultivos anteriores.'),
+('Compactación', 'Proceso de presionar el suelo para mejorar su estructura y capacidad de retención de agua.'),
+('Análisis de suelo', 'Examen detallado de las características del suelo para mejorar su gestión.'),
+('Rotación de cultivos', 'Práctica de alternar diferentes tipos de cultivos en el mismo terreno para mejorar la salud del suelo.'),
+('Manejo de residuos agrícolas', 'Gestión adecuada de los desechos generados en las actividades agrícolas.'),
+-- Labores que son de los cultivos
 ('Siembra', 'Proceso de colocar las semillas en el suelo en las condiciones adecuadas para su germinación y crecimiento.'),
 ('Fertilización', 'Aplicación de nutrientes al suelo para promover el crecimiento saludable de las plantas.'),
 ('Riego', 'Suministro de agua a los cultivos para mantener una adecuada humedad del suelo.'),
 ('Control de plagas', 'Acciones para prevenir y eliminar plagas que afectan los cultivos.'),
 ('Control de malezas', 'Eliminación de plantas no deseadas que compiten con los cultivos por recursos.'),
 ('Cosecha', 'Recolección de los cultivos maduros para su posterior procesamiento o venta.'),
-('Secado', 'Reducción del contenido de humedad de los productos cosechados para prevenir la proliferación de microorganismos y facilitar el almacenamiento.'),
-('Limpieza', 'Eliminación de residuos, tierra y otras impurezas de los productos cosechados para mejorar su calidad y preparar para el almacenamiento o procesamiento.'),
-('Clasificación y selección', 'Separación de los productos según su calidad, tamaño o estado para asegurar una mejor presentación y valor en el mercado.'),
-('Almacenamiento', 'Acondicionamiento y conservación de los productos cosechados en condiciones óptimas de temperatura, humedad y ventilación para mantener su calidad.'),
-('Empaque', 'Embalaje de los productos agrícolas para protegerlos durante el transporte y mejorar su comercialización.'),
-('Transporte', 'Movimiento de los productos desde el lugar de cosecha o almacenamiento hasta los mercados o lugares de procesamiento.'),
-('Tratamiento post-cosecha', 'Aplicación de tratamientos específicos para prolongar la vida útil de los productos, como el uso de fungicidas, recubrimientos protectores o atmósfera controlada.'),
-('Rotación de cultivos', 'Práctica de alternar diferentes tipos de cultivos en el mismo terreno para mejorar la salud del suelo.'),
-('Monitoreo fitosanitario', 'Vigilancia sistemática de la salud de los cultivos, orientada a la detección temprana de plagas, enfermedades y otros factores fitosanitarios que puedan afectar a las plantas.'),
-('Labranza', 'Trabajo del suelo mediante herramientas o maquinaria para prepararlo para la siembra.'),
-('Arado', 'Proceso de romper y girar el suelo para facilitar la aireación y el drenaje.'),
-('Rastrillado', 'Uso de herramientas para nivelar el suelo y eliminar restos de cultivos anteriores.'),
-('Compactación', 'Proceso de presionar el suelo para mejorar su estructura y capacidad de retención de agua.'),
-('Aplicación de fungicidas', 'Uso de productos para prevenir y tratar enfermedades fúngicas en las plantas.'),
-('Control biológico de plagas', 'Uso de organismos vivos para controlar poblaciones de plagas.'),
-('Análisis de suelo', 'Examen detallado de las características del suelo para mejorar su gestión.'),
-('Manejo de residuos agrícolas', 'Gestión adecuada de los desechos generados en las actividades agrícolas.');
+('Secado', 'Reducción del contenido de humedad de los productos cosechados.'),
+('Limpieza', 'Eliminación de residuos, tierra y otras impurezas de los productos cosechados.'),
+('Clasificación y selección', 'Separación de los productos según su calidad, tamaño o estado.'),
+('Almacenamiento', 'Acondicionamiento y conservación de los productos cosechados.'),
+('Empaque', 'Embalaje de los productos agrícolas para protegerlos durante el transporte.'),
+('Transporte', 'Movimiento de los productos desde el lugar de cosecha o almacenamiento.'),
+('Tratamiento post-cosecha', 'Aplicación de tratamientos específicos para prolongar la vida útil.'),
+('Monitoreo fitosanitario', 'Vigilancia sistemática de la salud de los cultivos.'),
+('Aplicación de fungicidas', 'Uso de productos para prevenir y tratar enfermedades fúngicas.'),
+('Control biológico de plagas', 'Uso de organismos vivos para controlar poblaciones de plagas.');
 
 INSERT INTO estado_tarea_labor_cultural (nombre, descripcion) VALUES
 ('Pendiente', 'La tarea está pendiente de inicio'),

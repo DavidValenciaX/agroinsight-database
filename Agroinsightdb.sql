@@ -300,6 +300,7 @@ CREATE TABLE "tarea_insumo" (
 );
 
 ALTER TABLE "tarea_insumo" ADD FOREIGN KEY ("tarea_labor_id") REFERENCES "tarea_labor_cultural" ("id");
+
 ALTER TABLE "tarea_insumo" ADD FOREIGN KEY ("insumo_id") REFERENCES "insumo_agricola" ("id");
 
 CREATE TABLE "tipo_maquinaria_agricola" (
