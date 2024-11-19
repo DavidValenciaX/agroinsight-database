@@ -30,72 +30,72 @@ VALUES
  'Labranza y preparación del suelo para siembra', 3, 1),
 
 ('Siembra de maíz', 
- (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Siembra' AND nivel = 'LOTE'), 
+ (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Siembra' AND nivel = 'CULTIVO'), 
  '2024-01-15', '2024-01-15', 
  'Siembra del cultivo según densidad recomendada', 3, 1),
 
 -- Fertilización y control inicial
 ('Primera fertilización', 
- (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Fertilización' AND nivel = 'LOTE'), 
+ (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Fertilización' AND nivel = 'CULTIVO'), 
  '2024-01-30', '2024-01-30', 
  'Aplicación de fertilizante base 15 días después de siembra', 3, 1),
 
 ('Primer control de malezas', 
- (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de malezas' AND nivel = 'LOTE'), 
+ (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de malezas' AND nivel = 'CULTIVO'), 
  '2024-02-05', '2024-02-06', 
  'Control de malezas temprano', 3, 1),
 
 -- Monitoreo y controles
 ('Primer monitoreo fitosanitario', 
- (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Monitoreo fitosanitario' AND nivel = 'LOTE'), 
+ (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Monitoreo fitosanitario' AND nivel = 'CULTIVO'), 
  '2024-02-15', '2024-02-15', 
  'Monitoreo para detectar presencia temprana de plagas', 3, 1),
 
 ('Segunda fertilización', 
- (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Fertilización' AND nivel = 'LOTE'), 
+ (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Fertilización' AND nivel = 'CULTIVO'), 
  '2024-02-28', '2024-02-28', 
  'Aplicación de fertilizante en etapa V6', 3, 1),
 
 ('Control preventivo de plagas', 
- (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de plagas' AND nivel = 'LOTE'), 
+ (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de plagas' AND nivel = 'CULTIVO'), 
  '2024-03-10', '2024-03-10', 
  'Aplicación preventiva de control de plagas', 3, 1),
 
 -- Manejo medio ciclo
 ('Segundo monitoreo fitosanitario', 
- (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Monitoreo fitosanitario' AND nivel = 'LOTE'), 
+ (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Monitoreo fitosanitario' AND nivel = 'CULTIVO'), 
  '2024-03-20', '2024-03-20', 
  'Monitoreo en etapa pre-floración', 3, 1),
 
 ('Tercer fertilización', 
- (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Fertilización' AND nivel = 'LOTE'), 
+ (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Fertilización' AND nivel = 'CULTIVO'), 
  '2024-03-30', '2024-03-30', 
  'Aplicación de fertilizante en pre-floración', 3, 1),
 
 -- Preparación cosecha
 ('Control pre-cosecha', 
- (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de plagas' AND nivel = 'LOTE'), 
+ (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de plagas' AND nivel = 'CULTIVO'), 
  '2024-04-30', '2024-04-30', 
  'Control final de plagas y enfermedades', 3, 1),
 
 ('Monitoreo de madurez', 
- (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Monitoreo fitosanitario' AND nivel = 'LOTE'), 
+ (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Monitoreo fitosanitario' AND nivel = 'CULTIVO'), 
  '2024-05-10', '2024-05-10', 
  'Evaluación de madurez para determinar momento óptimo de cosecha', 3, 1),
 
 ('Cosecha', 
- (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Cosecha' AND nivel = 'LOTE'), 
+ (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Cosecha' AND nivel = 'CULTIVO'), 
  '2024-05-15', '2024-05-15', 
  'Cosecha del cultivo', 3, 1),
 
 -- Post-cosecha
 ('Secado de grano', 
- (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Secado' AND nivel = 'LOTE'), 
+ (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Secado' AND nivel = 'CULTIVO'), 
  '2024-05-16', '2024-05-18', 
  'Proceso de secado del grano cosechado', 3, 1),
 
 ('Limpieza y clasificación', 
- (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Limpieza' AND nivel = 'LOTE'), 
+ (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Limpieza' AND nivel = 'CULTIVO'), 
  '2024-05-19', '2024-05-19', 
  'Limpieza y clasificación del grano para venta', 3, 1);
 
