@@ -240,58 +240,47 @@ INSERT INTO tarea_maquinaria
 SELECT 
     tlc.id,
     CASE 
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Labranza' AND nivel = 'LOTE') THEN 
+        WHEN tlc.nombre = 'Análisis inicial de suelo' THEN 
             (SELECT id FROM maquinaria_agricola WHERE nombre = 'Tractor John Deere 6110J')
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Siembra' AND nivel = 'CULTIVO') THEN 
+        WHEN tlc.nombre = 'Preparación del terreno' THEN 
+            (SELECT id FROM maquinaria_agricola WHERE nombre = 'Tractor Massey Ferguson 4275')
+        WHEN tlc.nombre = 'Siembra de maíz' THEN 
             (SELECT id FROM maquinaria_agricola WHERE nombre = 'Sembradora John Deere 1725')
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Fertilización' AND nivel = 'CULTIVO') THEN 
+        WHEN tlc.nombre LIKE '%fertilización%' THEN 
             (SELECT id FROM maquinaria_agricola WHERE nombre = 'Fertilizadora Amazone ZA-M')
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de malezas' AND nivel = 'CULTIVO') THEN 
+        WHEN tlc.nombre LIKE '%control de malezas%' OR tlc.nombre LIKE '%Control preventivo%' OR tlc.nombre = 'Control pre-cosecha' THEN 
             (SELECT id FROM maquinaria_agricola WHERE nombre = 'Fumigadora Jacto Advance 3000')
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de plagas' AND nivel = 'CULTIVO') THEN 
-            (SELECT id FROM maquinaria_agricola WHERE nombre = 'Fumigadora Jacto Advance 3000')
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Cosecha' AND nivel = 'CULTIVO') THEN 
+        WHEN tlc.nombre = 'Cosecha' THEN 
             (SELECT id FROM maquinaria_agricola WHERE nombre = 'Cosechadora John Deere S780')
     END as maquinaria_id,
     tlc.fecha_inicio_estimada as fecha_uso,
     CASE 
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Labranza' AND nivel = 'LOTE') THEN 8
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Siembra' AND nivel = 'CULTIVO') THEN 6
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Fertilización' AND nivel = 'LOTE') THEN 4
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de malezas' AND nivel = 'LOTE') THEN 4
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de plagas' AND nivel = 'CULTIVO') THEN 4
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Cosecha' AND nivel = 'CULTIVO') THEN 8
+        WHEN tlc.nombre = 'Análisis inicial de suelo' THEN 4.0
+        WHEN tlc.nombre = 'Preparación del terreno' THEN 8.0
+        WHEN tlc.nombre = 'Siembra de maíz' THEN 6.0
+        WHEN tlc.nombre LIKE '%fertilización%' THEN 4.0
+        WHEN tlc.nombre LIKE '%control de malezas%' OR tlc.nombre LIKE '%Control preventivo%' OR tlc.nombre = 'Control pre-cosecha' THEN 3.0
+        WHEN tlc.nombre = 'Cosecha' THEN 10.0
+        ELSE 4.0
     END as horas_uso,
     CASE 
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Labranza' AND nivel = 'LOTE') THEN 1440000.00
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Siembra' AND nivel = 'CULTIVO') THEN 840000.00
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Fertilización' AND nivel = 'CULTIVO') THEN 352000.00
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de malezas' AND nivel = 'CULTIVO') THEN 400000.00
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de plagas' AND nivel = 'CULTIVO') THEN 400000.00
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Cosecha' AND nivel = 'CULTIVO') THEN 3840000.00
+        WHEN tlc.nombre = 'Análisis inicial de suelo' THEN 720000.00
+        WHEN tlc.nombre = 'Preparación del terreno' THEN 1280000.00
+        WHEN tlc.nombre = 'Siembra de maíz' THEN 840000.00
+        WHEN tlc.nombre LIKE '%fertilización%' THEN 352000.00
+        WHEN tlc.nombre LIKE '%control de malezas%' OR tlc.nombre LIKE '%Control preventivo%' OR tlc.nombre = 'Control pre-cosecha' THEN 300000.00
+        WHEN tlc.nombre = 'Cosecha' THEN 4800000.00
+        ELSE 400000.00
     END as costo_total,
     'Maquinaria operada según especificaciones técnicas' as observaciones
 FROM tarea_labor_cultural tlc
-WHERE tlc.lote_id = 1
-AND tlc.tipo_labor_id IN (
-    SELECT id FROM tipo_labor_cultural 
-    WHERE nombre IN ('Labranza', 'Siembra', 'Fertilización', 'Control de malezas', 'Control de plagas', 'Cosecha')
-    AND nivel IN ('LOTE', 'CULTIVO')
-)
-AND CASE 
-    WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Labranza' AND nivel = 'LOTE') THEN 
-        (SELECT id FROM maquinaria_agricola WHERE nombre = 'Tractor John Deere 6110J')
-    WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Siembra' AND nivel = 'CULTIVO') THEN 
-        (SELECT id FROM maquinaria_agricola WHERE nombre = 'Sembradora John Deere 1725')
-    WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Fertilización' AND nivel = 'CULTIVO') THEN 
-        (SELECT id FROM maquinaria_agricola WHERE nombre = 'Fertilizadora Amazone ZA-M')
-    WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de malezas' AND nivel = 'CULTIVO') THEN 
-        (SELECT id FROM maquinaria_agricola WHERE nombre = 'Fumigadora Jacto Advance 3000')
-    WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de plagas' AND nivel = 'CULTIVO') THEN 
-        (SELECT id FROM maquinaria_agricola WHERE nombre = 'Fumigadora Jacto Advance 3000')
-    WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Cosecha' AND nivel = 'CULTIVO') THEN 
-        (SELECT id FROM maquinaria_agricola WHERE nombre = 'Cosechadora John Deere S780')
-END IS NOT NULL;
+WHERE tlc.lote_id = 1 
+AND tlc.nombre IN (
+    'Análisis inicial de suelo', 'Preparación del terreno', 'Siembra de maíz',
+    'Primera fertilización', 'Segunda fertilización', 'Tercer fertilización',
+    'Primer control de malezas', 'Control preventivo de plagas', 
+    'Control pre-cosecha', 'Cosecha'
+);
 
 -- Antes de las inserciones, asegurarse que el lote tenga los nuevos campos
 UPDATE lote 
