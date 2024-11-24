@@ -108,7 +108,7 @@ WHERE tarea_labor_id IN (
 
 -- Luego insertamos los nuevos registros
 INSERT INTO costo_mano_obra 
-(tarea_labor_id, cantidad_trabajadores, horas_trabajadas, costo_hora, costo_total, observaciones)
+(tarea_labor_id, cantidad_trabajadores, horas_trabajadas, costo_hora, observaciones)
 SELECT 
     tlc.id,
     CASE 
@@ -138,19 +138,6 @@ SELECT
         ELSE 4
     END as horas_trabajadas,
     5000.00 as costo_hora,
-    CASE 
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Análisis de suelo' AND nivel = 'LOTE') THEN 40000.00
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Labranza' AND nivel = 'LOTE') THEN 120000.00
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Siembra' AND nivel = 'CULTIVO') THEN 160000.00
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Fertilización' AND nivel = 'CULTIVO') THEN 90000.00
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de malezas' AND nivel = 'CULTIVO') THEN 90000.00
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Monitoreo fitosanitario' AND nivel = 'CULTIVO') THEN 40000.00
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Control de plagas' AND nivel = 'CULTIVO') THEN 90000.00
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Cosecha' AND nivel = 'CULTIVO') THEN 300000.00
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Secado' AND nivel = 'CULTIVO') THEN 120000.00
-        WHEN tlc.tipo_labor_id = (SELECT id FROM tipo_labor_cultural WHERE nombre = 'Limpieza' AND nivel = 'CULTIVO') THEN 160000.00
-        ELSE 40000.00
-    END as costo_total,
     'Trabajo realizado según cronograma' as observaciones
 FROM tarea_labor_cultural tlc
 WHERE tlc.lote_id = 1;
@@ -164,7 +151,7 @@ WHERE tarea_labor_id IN (
 
 -- Luego insertamos los nuevos registros
 INSERT INTO tarea_insumo 
-(tarea_labor_id, insumo_id, cantidad_utilizada, costo_total, fecha_aplicacion, observaciones)
+(tarea_labor_id, insumo_id, cantidad_utilizada, fecha_aplicacion, observaciones)
 SELECT 
     tlc.id,
     CASE 
@@ -190,15 +177,6 @@ SELECT
         WHEN tlc.nombre = 'Control pre-cosecha' THEN 1
         WHEN tlc.nombre = 'Siembra de maíz' THEN 1
     END as cantidad_utilizada,
-    CASE 
-        WHEN tlc.nombre = 'Primera fertilización' THEN 640000.00
-        WHEN tlc.nombre = 'Segunda fertilización' THEN 720000.00
-        WHEN tlc.nombre = 'Tercer fertilización' THEN 660000.00
-        WHEN tlc.nombre = 'Primer control de malezas' THEN 90000.00
-        WHEN tlc.nombre = 'Control preventivo de plagas' THEN 320000.00
-        WHEN tlc.nombre = 'Control pre-cosecha' THEN 195000.00
-        WHEN tlc.nombre = 'Siembra de maíz' THEN 750000.00
-    END as costo_total,
     tlc.fecha_inicio_estimada as fecha_aplicacion,
     'Aplicación realizada según recomendaciones técnicas' as observaciones
 FROM tarea_labor_cultural tlc
@@ -234,7 +212,7 @@ WHERE tarea_labor_id IN (
 
 -- Luego insertamos los nuevos registros
 INSERT INTO tarea_maquinaria 
-(tarea_labor_id, maquinaria_id, fecha_uso, horas_uso, costo_total, observaciones)
+(tarea_labor_id, maquinaria_id, fecha_uso, horas_uso, observaciones)
 SELECT 
     tlc.id,
     CASE 
@@ -261,15 +239,6 @@ SELECT
         WHEN tlc.nombre = 'Cosecha' THEN 10.0
         ELSE 4.0
     END as horas_uso,
-    CASE 
-        WHEN tlc.nombre = 'Análisis inicial de suelo' THEN 720000.00
-        WHEN tlc.nombre = 'Preparación del terreno' THEN 1280000.00
-        WHEN tlc.nombre = 'Siembra de maíz' THEN 840000.00
-        WHEN tlc.nombre LIKE '%fertilización%' THEN 352000.00
-        WHEN tlc.nombre LIKE '%control de malezas%' OR tlc.nombre LIKE '%Control preventivo%' OR tlc.nombre = 'Control pre-cosecha' THEN 300000.00
-        WHEN tlc.nombre = 'Cosecha' THEN 4800000.00
-        ELSE 400000.00
-    END as costo_total,
     'Maquinaria operada según especificaciones técnicas' as observaciones
 FROM tarea_labor_cultural tlc
 WHERE tlc.lote_id = 1 

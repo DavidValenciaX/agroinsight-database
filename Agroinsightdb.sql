@@ -260,7 +260,6 @@ CREATE TABLE "costo_mano_obra" (
   "cantidad_trabajadores" INT NOT NULL,
   "horas_trabajadas" DECIMAL(5,2) NOT NULL,
   "costo_hora" DECIMAL(10,2) NOT NULL,
-  "costo_total" DECIMAL(10,2) NOT NULL,
   "observaciones" TEXT,
   "fecha_creacion" TIMESTAMP WITH TIME ZONE DEFAULT (CURRENT_TIMESTAMP AT TIME ZONE 'UTC'),
   "fecha_modificacion" TIMESTAMP WITH TIME ZONE DEFAULT (NULL)
@@ -298,7 +297,6 @@ CREATE TABLE "tarea_insumo" (
   "tarea_labor_id" INT NOT NULL,
   "insumo_id" INT NOT NULL,
   "cantidad_utilizada" DECIMAL(10,2) NOT NULL,
-  "costo_total" DECIMAL(10,2) NOT NULL,
   "fecha_aplicacion" DATE,
   "observaciones" TEXT,
   "fecha_creacion" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT (CURRENT_TIMESTAMP AT TIME ZONE 'UTC'),
@@ -337,7 +335,6 @@ CREATE TABLE "tarea_maquinaria" (
   "maquinaria_id" INT NOT NULL,
   "fecha_uso" DATE,
   "horas_uso" DECIMAL(5,2) NOT NULL,
-  "costo_total" DECIMAL(10,2) NOT NULL,
   "observaciones" TEXT,
   "fecha_creacion" TIMESTAMP WITH TIME ZONE DEFAULT (CURRENT_TIMESTAMP AT TIME ZONE 'UTC'),
   "fecha_modificacion" TIMESTAMP WITH TIME ZONE DEFAULT (NULL)
