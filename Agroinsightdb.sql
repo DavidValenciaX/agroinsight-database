@@ -199,8 +199,6 @@ CREATE TABLE "cultivo" (
   "precio_venta_unitario" DECIMAL(10,2) NULL,
   "cantidad_vendida" INT NULL,
   "cantidad_vendida_unidad_id" INT NULL,
-  "ingreso_total" DECIMAL(15,2) NULL,
-  "costo_produccion" DECIMAL(15,2) NULL,
   "moneda_id" INT NOT NULL,
   "fecha_venta" DATE NULL,
   "fecha_creacion" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT (CURRENT_TIMESTAMP AT TIME ZONE 'UTC'),

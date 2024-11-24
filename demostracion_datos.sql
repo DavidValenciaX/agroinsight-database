@@ -7,8 +7,6 @@ SET
     "precio_venta_unitario" = 3500.00,   -- $3,500 COP por kg
     "cantidad_vendida" = 8000,           -- 8000 kg vendidos
     "cantidad_vendida_unidad_id" = 15,   -- kilogramos
-    "ingreso_total" = 28000000.00,       -- 8000 kg * $3,500 COP = $28,000,000 COP
-    "costo_produccion" = 15000000.00,    -- $15,000,000 COP costos totales
     "moneda_id" = (SELECT id FROM unidad_medida WHERE nombre = 'Peso Colombiano' AND abreviatura = 'COP'),                    -- Peso Colombiano (COP)
     "fecha_venta" = '2024-05-20',        -- 5 días después de la cosecha
     "fecha_modificacion" = CURRENT_TIMESTAMP AT TIME ZONE 'UTC'
