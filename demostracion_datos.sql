@@ -281,11 +281,3 @@ AND tlc.nombre IN (
     'Primer control de malezas', 'Control preventivo de plagas', 
     'Control pre-cosecha', 'Cosecha'
 );
-
--- Antes de las inserciones, asegurarse que el lote tenga los nuevos campos
-UPDATE lote 
-SET costos_mantenimiento = 500000.00,
-    moneda_id = (SELECT id FROM unidad_medida WHERE nombre = 'Peso Colombiano' AND categoria_id = (
-        SELECT id FROM categoria_unidad_medida WHERE nombre = 'Moneda'
-    ))
-WHERE id = 1;
