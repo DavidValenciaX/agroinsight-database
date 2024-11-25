@@ -108,7 +108,7 @@ WHERE tarea_labor_id IN (
 
 -- Luego insertamos los nuevos registros
 INSERT INTO costo_mano_obra 
-(tarea_labor_id, cantidad_trabajadores, horas_trabajadas, costo_hora, observaciones)
+(tarea_labor_id, cantidad_trabajadores, horas_trabajadas, costo_hora, moneda_id, observaciones)
 SELECT 
     tlc.id,
     CASE 
@@ -138,6 +138,7 @@ SELECT
         ELSE 4
     END as horas_trabajadas,
     5000.00 as costo_hora,
+    (SELECT id FROM unidad_medida WHERE nombre = 'Peso Colombiano' AND abreviatura = 'COP') as moneda_id,
     'Trabajo realizado según cronograma' as observaciones
 FROM tarea_labor_cultural tlc
 WHERE tlc.lote_id = 1;
